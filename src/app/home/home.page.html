@@ -1,20 +1,86 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-content [fullscreen]="true" style="position: relative;">
+  
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="toggleAccordion()" class="menu-button">
+          <ion-icon name="menu-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-grid style="height: 100%;">
+        <ion-row style="align-items: center;">
+          <ion-col style="display: flex; justify-content: flex-start; align-items: center;">
+            <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="menu-button" />
+          </ion-col>
+          <ion-col size="auto" style="display: flex; justify-content: center; align-items: center;">
+            <a href="" class="menu-button"><ion-icon name="basket-outline"></ion-icon></a>
+          </ion-col>
+          <ion-col size="auto" style="display: flex; justify-content: center; align-items: center;">
+            <ion-icon name="person-circle-outline" class="menu-button"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <!-- Overlay dropdown menu and backdrop -->
+  <div *ngIf="showAccordion">
+    <div class="dropdown-backdrop" (click)="toggleAccordion()"></div>
+    <div class="menu-dropdown-overlay">
+      <ion-list>
+        <ion-item button routerLink="/home">Home</ion-item>
+        <ion-item button routerLink="/shop">Shop</ion-item>
+        <ion-item button routerLink="/contact">Contact Us</ion-item>
+        <ion-item button routerLink="/about">About Us</ion-item>
+      </ion-list>
+    </div>
   </div>
+
+  <div class="main-content ion-padding">
+    <ion-card class="full-width-card">
+      <div class="card-image-wrapper">
+        <img alt="Baby clothes" src="assets/baby clothes.png" class="card-image"/>
+        <div class="card-overlay">
+          <ion-card-title>Your Trusted Shop for Baby Clothes</ion-card-title>
+          <ion-button fill="solid">Shop For Your Baby Clothes</ion-button>
+        </div>
+      </div>
+    </ion-card>
+
+    <!-- Featured Categories -->
+    <div class="featured-label">
+      <h2>Featured Categories</h2>
+    </div>
+    <div class="categories-vertical-scroll">
+      <div class="category-item" *ngFor="let category of featuredCategories">
+        <img [src]="category.img" [alt]="category.name" class="category-img"/>
+        <div class="category-name">{{ category.name }}</div>
+      </div>
+    </div>
+
+    <!-- Best Sellers -->
+    <div class="best-sellers-label">
+      <h2>Best Sellers</h2>
+    </div>
+    <div class="best-sellers-grid">
+      <ion-card class="best-seller-card best-seller-item" *ngFor="let item of bestSellers">
+        <img [src]="item.img" [alt]="item.name" class="best-seller-img"/>
+        <ion-card-content>
+          <div class="best-seller-name">{{ item.name }}</div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="footer-icon" />
+      <div class="footer-info">
+        <div class="footer-label">Information</div>
+        <a routerLink="/about" class="footer-link">About Us</a>
+        <a routerLink="/contact" class="footer-link">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
 </ion-content>
