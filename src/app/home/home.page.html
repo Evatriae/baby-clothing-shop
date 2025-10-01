@@ -21,20 +21,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="position: relative;">
-
-  <!-- Overlay dropdown menu and backdrop -->
-  <div *ngIf="showAccordion">
-    <div class="dropdown-backdrop" (click)="toggleAccordion()"></div>
-    <div class="menu-dropdown-overlay">
-      <ion-list>
-        <ion-item button routerLink="/home">Home</ion-item>
-        <ion-item button routerLink="/shop">Shop</ion-item>
-        <ion-item button routerLink="/contact">Contact Us</ion-item>
-        <ion-item button routerLink="/about">About Us</ion-item>
-      </ion-list>
-    </div>
+<!-- Overlay dropdown menu and backdrop -->
+<div *ngIf="showAccordion">
+  <div class="dropdown-backdrop" (click)="toggleAccordion()"></div>
+  <div class="menu-dropdown-overlay">
+    <ion-list>
+      <ion-item button routerLink="/home">Home</ion-item>
+      <ion-item button routerLink="/shop">Shop</ion-item>
+      <ion-item button routerLink="/contact">Contact Us</ion-item>
+      <ion-item button routerLink="/about">About Us</ion-item>
+    </ion-list>
   </div>
+</div>
+
+<ion-content style="position: relative;">
 
   <div class="main-content ion-padding">
     <ion-card class="full-width-card">
