@@ -14,7 +14,8 @@ import {
   IonCol,
   IonIcon,
   IonList,
-  IonItem
+  IonItem,
+  IonBadge
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons';
@@ -39,7 +40,8 @@ import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons'
     IonCol,
     IonIcon,
     IonList,
-    IonItem
+    IonItem,
+    IonBadge
   ],
 })
 export class HomePage {
@@ -68,4 +70,6 @@ export class HomePage {
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
   }
+
+  cartItemCount = 0;
 }

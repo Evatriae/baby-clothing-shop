@@ -11,7 +11,10 @@
           <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="menu-button" />
         </ion-col>
         <ion-col size="auto" class="header-col">
-          <a href="" class="menu-button"><ion-icon name="basket-outline"></ion-icon></a>
+          <div class="icon-with-badge">
+            <a href="" class="menu-button"><ion-icon name="basket-outline"></ion-icon></a>
+            <ion-badge color="danger" class="cart-badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</ion-badge>
+          </div>
         </ion-col>
         <ion-col size="auto" class="header-col">
           <ion-icon name="person-circle-outline" class="menu-button"></ion-icon>
