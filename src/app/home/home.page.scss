@@ -7,6 +7,11 @@
   --ion-font-family: 'Jost', sans-serif;
 }
 
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
 #container {
   text-align: center;
   position: absolute;
@@ -44,7 +49,7 @@
 
 .menu-dropdown-overlay {
   position: absolute;
-  top: 80px;
+  top: 100px;
   left: 0;
   width: 100%;
   z-index: 1000;
@@ -64,17 +69,26 @@
 
 ion-toolbar {
   --background: #38E9C0;
-  --min-height: 80px;
-  height: 80px;
+  --min-height: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+ion-header {
+  border-bottom: none;
 }
 
 ion-toolbar ion-grid {
-  height: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
 }
 
 ion-toolbar ion-row {
-  height: 100%;
+  height: 100px;
   align-items: center;
+  width: 100%;
 }
 
 .center-content {
@@ -258,15 +272,28 @@ ion-card-title {
 }
 
 .menu-button {
-  width: 40px;
-  height: 40px;
-  margin-left: 10px;
-  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 .menu-button ion-icon {
-  font-size: 40px;
   color: #fff !important;
-  width: 40px;
-  height: 40px;
+}
+
+.menu-button ion-icon{
+  font-size: 48px;
+  width: 50px;
+  height: 50px;
+}
+
+.header-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-col:first-child {
+  justify-content: flex-start;
 }
