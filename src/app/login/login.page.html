@@ -19,7 +19,7 @@
           </div>
         </ion-col>
         <ion-col size="auto" class="header-col">
-          <ion-button fill="clear" class="menu-button" routerLink="/login">
+          <ion-button fill="clear" class="menu-button">
             <ion-icon name="person-circle-outline"></ion-icon>
           </ion-button>
         </ion-col>
@@ -42,41 +42,53 @@
 </div>
 
 <ion-content style="position: relative;">
-
   <div class="main-content ion-padding">
-    <ion-card class="full-width-card">
-      <div class="card-image-wrapper">
-        <img alt="Baby clothes" src="assets/baby clothes.png" class="card-image"/>
-        <div class="card-overlay">
-          <ion-card-title>Your Trusted Shop for Baby Clothes</ion-card-title>
-          <ion-button fill="solid">Shop For Your Baby Clothes</ion-button>
-        </div>
-      </div>
-    </ion-card>
-
-    <!-- Featured Categories -->
-    <div class="featured-label">
-      <h2>Featured Categories</h2>
-    </div>
-    <div class="categories-vertical-scroll">
-      <div class="category-item" *ngFor="let category of featuredCategories">
-        <img [src]="category.img" [alt]="category.name" class="category-img"/>
-        <div class="category-name">{{ category.name }}</div>
-      </div>
-    </div>
-
-    <!-- Best Sellers -->
-    <div class="best-sellers-label">
-      <h2>Best Sellers</h2>
-    </div>
-    <div class="best-sellers-grid">
-      <ion-card class="best-seller-card best-seller-item" *ngFor="let item of bestSellers">
-        <img [src]="item.img" [alt]="item.name" class="best-seller-img"/>
+    
+    <!-- Login Card -->
+    <div class="login-container">
+      <ion-card class="login-card">
         <ion-card-content>
-          <div class="best-seller-name">{{ item.name }}</div>
+          <h1 class="login-title">Log In</h1>
+          
+          <div class="input-group">
+            <div class="input-with-icon">
+              <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+              <ion-input 
+                type="email" 
+                placeholder="Email:" 
+                [(ngModel)]="email"
+                class="login-input">
+              </ion-input>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <ion-input 
+              type="password" 
+              placeholder="Password:" 
+              [(ngModel)]="password"
+              class="login-input">
+              <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+            </ion-input>
+          </div>
+
+          <ion-button 
+            fill="solid" 
+            class="login-button"
+            routerLink="/home"
+          >
+            Log In
+          </ion-button>
+
+          <div class="signup-prompt">
+            Don't have an account? 
+            <a routerLink="/register" class="signup-link">Register</a>
+          </div>
+
         </ion-card-content>
       </ion-card>
     </div>
+
   </div>
 
   <footer class="main-footer">

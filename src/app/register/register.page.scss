@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+:host {
+  --ion-background-color: #fff;
+  background: #fff;
+  font-family: 'Jost', sans-serif;
+  --ion-font-family: 'Jost', sans-serif;
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// Shared styles from home page
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background: transparent;
+}
+
+.menu-dropdown-overlay {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.menu-dropdown-overlay ion-list {
+  background: #fff !important;
+}
+
+.menu-dropdown-overlay ion-item {
+  --background: #fff !important;
+  background: #fff !important;
+  color: black;
+}
+
+ion-toolbar {
+  --background: #38E9C0;
+  --min-height: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+ion-header {
+  border-bottom: none;
+}
+
+ion-toolbar ion-grid {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+ion-toolbar ion-row {
+  height: 100px;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-button {
+  width: 50px;
+  height: 50px;
+  margin-left: 12px;
+  margin-right: 12px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.menu-button ion-icon {
+  color: #fff !important;
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+ion-toolbar ion-button.menu-button ion-icon {
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+  color: #fff !important;
+}
+
+ion-toolbar ion-icon {
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+  color: #fff !important;
+}
+
+ion-toolbar ion-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.header-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-col:first-child {
+  justify-content: flex-start;
+}
+
+.icon-with-badge {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-badge {
+  position: absolute;
+  bottom: 5px;
+  right: 4px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.main-footer {
+  width: 100%;
+  background: #38E9C0;
+  padding: 24px 0 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 12px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.footer-link {
+  color: #222;
+  text-decoration: none;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+// Register-specific styles
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  padding: 20px;
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.register-card {
+  max-width: 400px;
+  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: none;
+  background: #f8f8f8;
+}
+
+.register-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24px;
+  text-align: left;
+  border-bottom: 2px solid #333;
+  padding-bottom: 8px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  z-index: 2;
+  color: #666;
+  font-size: 20px;
+}
+
+.register-input {
+  --background: #fff;
+  --border-color: #ccc;
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 4px;
+  --padding-start: 45px;
+  --padding-end: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --color: #333;
+  height: 48px;
+}
+
+.register-input:not(.input-with-icon .register-input) {
+  --padding-start: 12px;
+}
+
+.register-input::part(native) {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.register-button {
+  --background: #38E9C0;
+  --color: #333;
+  --border-radius: 25px;
+  width: 200px;
+  height: 50px;
+  margin: 20px auto 0;
+  display: block;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.login-prompt {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.login-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
