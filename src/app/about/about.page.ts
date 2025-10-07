@@ -15,7 +15,10 @@ import {
   IonIcon, 
   IonList, 
   IonItem, 
-  IonBadge 
+  IonBadge,
+  IonCard,
+  IonCardContent,
+  IonInput
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons';
@@ -39,14 +42,18 @@ import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons'
     IonRow, 
     IonCol, 
     IonIcon, 
-    IonList, 
-    IonItem, 
-    IonBadge
+    IonList,
+    IonItem,
+    IonBadge,
+    IonCard,
+    IonCardContent,
+    IonInput
   ]
 })
 export class AboutPage implements OnInit {
   showAccordion = false;
   cartItemCount = 0;
+  newsletterEmail = '';
 
   constructor() {
     addIcons({ menuOutline, personCircleOutline, basketOutline });
@@ -57,5 +64,16 @@ export class AboutPage implements OnInit {
 
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
+  }
+
+  subscribeNewsletter() {
+    if (this.newsletterEmail) {
+      // Add newsletter subscription logic here
+      console.log('Newsletter subscription for:', this.newsletterEmail);
+      alert('Thank you for subscribing to our newsletter!');
+      this.newsletterEmail = '';
+    } else {
+      alert('Please enter a valid email address.');
+    }
   }
 }

@@ -41,44 +41,80 @@
   </div>
 </div>
 
-<ion-content style="position: relative;">
-  <div class="main-content ion-padding">
-    
-    <!-- About Content -->
-    <div class="about-container">
-      <h1 class="page-title">About Us</h1>
-      <div class="about-content">
-        <p>Welcome to our baby clothing shop! We are dedicated to providing the highest quality, comfortable, and stylish clothing for your little ones.</p>
-        
-        <p>Our mission is to make sure every baby feels comfortable and looks adorable in our carefully selected clothing items. We understand that babies have sensitive skin, so we only choose the softest and most gentle fabrics.</p>
+<ion-content>
+  <div class="page-wrapper">
+    <div class="main-content ion-padding">
+      
+      <!-- About Content -->
+      <div class="about-container">
+        <h1 class="page-title">About Us</h1>
+        <div class="about-content">
+          <p>Welcome to our baby clothing shop! We are dedicated to providing the highest quality, comfortable, and stylish clothing for your little ones.</p>
+          
+          <p>Our mission is to make sure every baby feels comfortable and looks adorable in our carefully selected clothing items. We understand that babies have sensitive skin, so we only choose the softest and most gentle fabrics.</p>
 
-        <img src="assets/aboutbaby.jpeg" alt="aboutbaby" class="about-image"/>
-        
-        <p>From newborn essentials to toddler fashion, we have everything you need to dress your baby in style. Our collection includes:</p>
-        
-        <ul>
-          <li>Organic cotton onesies and bodysuits</li>
-          <li>Adorable rompers and playsuits</li>
-          <li>Cozy sleepwear and pajamas</li>
-          <li>Stylish dresses and outfits</li>
-          <li>Essential accessories</li>
-        </ul>
-        
-        <p>Thank you for choosing us for your baby's clothing needs. We're here to help you find the perfect outfit for every occasion!</p>
+          <img src="assets/aboutbaby.jpeg" alt="aboutbaby" class="about-image"/>
+          
+          <p>From newborn essentials to toddler fashion, we have everything you need to dress your baby in style. Our collection includes:</p>
+          
+          <ul>
+            <li>Organic cotton onesies and bodysuits</li>
+            <li>Adorable rompers and playsuits</li>
+            <li>Cozy sleepwear and pajamas</li>
+            <li>Stylish dresses and outfits</li>
+            <li>Essential accessories</li>
+          </ul>
+          
+          <p>Thank you for choosing us for your baby's clothing needs. We're here to help you find the perfect outfit for every occasion!</p>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+          <ion-card class="newsletter-card">
+            <ion-card-content>
+              <h2 class="newsletter-title">Join Our Newsletter</h2>
+              <p class="newsletter-description">
+                Stay updated with our latest collections, exclusive offers, and parenting tips! 
+                Get 10% off your first order when you subscribe.
+              </p>
+              
+              <div class="newsletter-form">
+                <div class="input-group">
+                  <ion-input 
+                    type="email" 
+                    placeholder="Enter your email address" 
+                    [(ngModel)]="newsletterEmail"
+                    class="newsletter-input">
+                  </ion-input>
+                </div>
+                
+                <ion-button 
+                  fill="solid" 
+                  class="newsletter-button"
+                  (click)="subscribeNewsletter()">
+                  Subscribe Now
+                </ion-button>
+              </div>
+              
+              <p class="newsletter-privacy">
+                We respect your privacy. Unsubscribe at any time.
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </div>
       </div>
+
     </div>
 
+    <footer class="main-footer">
+      <div class="footer-content">
+        <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="footer-icon" />
+        <div class="footer-info">
+          <div class="footer-label">Information</div>
+          <a routerLink="/about" class="footer-link">About Us</a>
+          <a routerLink="/contact" class="footer-link">Contact Us</a>
+        </div>
+      </div>
+    </footer>
   </div>
-
-  <footer class="main-footer">
-    <div class="footer-content">
-      <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="footer-icon" />
-      <div class="footer-info">
-        <div class="footer-label">Information</div>
-        <a routerLink="/about" class="footer-link">About Us</a>
-        <a routerLink="/contact" class="footer-link">Contact Us</a>
-      </div>
-    </div>
-  </footer>
-
 </ion-content>

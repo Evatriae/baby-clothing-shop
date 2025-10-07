@@ -41,65 +41,66 @@
   </div>
 </div>
 
-<ion-content style="position: relative;">
-  <div class="main-content ion-padding">
-    
-    <!-- Login Card -->
-    <div class="login-container">
-      <ion-card class="login-card">
-        <ion-card-content>
-          <h1 class="login-title">Log In</h1>
-          
-          <div class="input-group">
-            <div class="input-with-icon">
-              <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+<ion-content>
+  <div class="page-wrapper">
+    <div class="main-content ion-padding">
+      
+      <!-- Login Card -->
+      <div class="login-container">
+        <ion-card class="login-card">
+          <ion-card-content>
+            <h1 class="login-title">Log In</h1>
+            
+            <div class="input-group">
+              <div class="input-with-icon">
+                <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+                <ion-input 
+                  type="email" 
+                  placeholder="Email:" 
+                  [(ngModel)]="email"
+                  class="login-input">
+                </ion-input>
+              </div>
+            </div>
+
+            <div class="input-group">
               <ion-input 
-                type="email" 
-                placeholder="Email:" 
-                [(ngModel)]="email"
+                type="password" 
+                placeholder="Password:" 
+                [(ngModel)]="password"
                 class="login-input">
+                <ion-input-password-toggle slot="end"></ion-input-password-toggle>
               </ion-input>
             </div>
-          </div>
 
-          <div class="input-group">
-            <ion-input 
-              type="password" 
-              placeholder="Password:" 
-              [(ngModel)]="password"
-              class="login-input">
-              <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-            </ion-input>
-          </div>
+            <ion-button 
+              fill="solid" 
+              class="login-button"
+              routerLink="/home"
+            >
+              Log In
+            </ion-button>
 
-          <ion-button 
-            fill="solid" 
-            class="login-button"
-            routerLink="/home"
-          >
-            Log In
-          </ion-button>
+            <div class="signup-prompt">
+              Don't have an account? 
+              <a routerLink="/register" class="signup-link">Register</a>
+            </div>
 
-          <div class="signup-prompt">
-            Don't have an account? 
-            <a routerLink="/register" class="signup-link">Register</a>
-          </div>
-
-        </ion-card-content>
-      </ion-card>
-    </div>
-
-  </div>
-
-  <footer class="main-footer">
-    <div class="footer-content">
-      <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="footer-icon" />
-      <div class="footer-info">
-        <div class="footer-label">Information</div>
-        <a routerLink="/about" class="footer-link">About Us</a>
-        <a routerLink="/contact" class="footer-link">Contact Us</a>
+          </ion-card-content>
+        </ion-card>
       </div>
-    </div>
-  </footer>
 
+    </div>
+
+    <footer class="main-footer">
+      <div class="footer-content">
+        <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="footer-icon" />
+        <div class="footer-info">
+          <div class="footer-label">Information</div>
+          <a routerLink="/about" class="footer-link">About Us</a>
+          <a routerLink="/contact" class="footer-link">Contact Us</a>
+        </div>
+      </div>
+    </footer>
+  </div>
 </ion-content>

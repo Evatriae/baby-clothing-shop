@@ -10,6 +10,10 @@
 ion-content {
   --padding-top: 0;
   --padding-bottom: 0;
+  height: 100%;
+}
+
+.page-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -243,6 +247,100 @@ ion-toolbar ion-button {
 .about-content li {
   margin-bottom: 8px;
   color: #666;
+}
+
+// Newsletter Section Styles
+.newsletter-section {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.newsletter-card {
+  max-width: 500px;
+  width: 100%;
+  border: 2px solid #38E9C0;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(56, 233, 192, 0.1);
+  background: linear-gradient(135deg, #f8fdfc 0%, #ffffff 100%);
+}
+
+.newsletter-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin: 0 0 16px 0;
+  background: linear-gradient(135deg, #38E9C0 0%, #2bc4a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.newsletter-description {
+  text-align: center;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.newsletter-form {
+  margin-bottom: 16px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.newsletter-input {
+  --background: #fff;
+  --border-color: #38E9C0;
+  --border-width: 2px;
+  --border-style: solid;
+  --border-radius: 25px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --color: #333;
+  height: 48px;
+  font-size: 1rem;
+}
+
+.newsletter-input::part(native) {
+  border: 2px solid #38E9C0;
+  border-radius: 25px;
+}
+
+.newsletter-input:focus {
+  --border-color: #2bc4a0;
+}
+
+.newsletter-button {
+  --background: linear-gradient(135deg, #38E9C0 0%, #2bc4a0 100%);
+  --color: #333;
+  --border-radius: 25px;
+  width: 100%;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: none;
+  box-shadow: 0 4px 12px rgba(56, 233, 192, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.newsletter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(56, 233, 192, 0.4);
+}
+
+.newsletter-privacy {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+  margin: 0;
+  font-style: italic;
 }
 
 .about-image {
