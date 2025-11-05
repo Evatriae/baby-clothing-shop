@@ -129,3 +129,25 @@
     </footer>
   </div>
 </ion-content>
+
+<!-- Success Modal Overlay -->
+<div *ngIf="showSuccessModal" class="modal-overlay">
+  <div class="modal-backdrop" (click)="closeSuccessModal()"></div>
+  <div class="success-modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title">Registration</h2>
+      <button class="close-btn" (click)="closeSuccessModal()">×</button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="success-icon">✓</div>
+      <h3 class="success-title">Registration Successful!</h3>
+      <p class="success-message">
+        Welcome to Baby Clothing Shop! Your account has been created successfully.
+      </p>
+      <button class="login-redirect-button" (click)="goToLogin()">
+        Go to Login
+      </button>
+    </div>
+  </div>
+</div>
