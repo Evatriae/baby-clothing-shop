@@ -15,8 +15,10 @@ import {
 import { Router } from '@angular/router';
 import { SupabaseAuthService } from '../services/supabase-auth.service';
 import { ProductService, Product, CategoryWithProducts } from '../services/product.service';
+import { StorageService } from '../services/storage.service';
 import { Subscription } from 'rxjs';
 import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
+import { ProductModalComponent } from '../shared/product-modal/product-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +37,8 @@ import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
     IonSpinner,
     IonRefresher,
     IonRefresherContent,
-    ToolbarComponent
+    ToolbarComponent,
+    ProductModalComponent
   ],
 })
 export class HomePage implements OnInit, OnDestroy {
@@ -50,11 +53,13 @@ export class HomePage implements OnInit, OnDestroy {
   error = false;
   showProductModal = false;
   selectedProduct: Product | null = null;
+  heroImageUrl: string = '';
 
   constructor(
     private router: Router,
     private supabaseAuthService: SupabaseAuthService,
-    private productService: ProductService
+    private productService: ProductService,
+    private storageService: StorageService
   ) {}
 
   async ngOnInit() {
@@ -63,8 +68,19 @@ export class HomePage implements OnInit, OnDestroy {
       this.isLoggedIn = !!user;
     });
     
+    // Load hero image from Supabase storage
+    this.loadHeroImage();
+    
     // Load products data
     await this.loadData();
+  }
+
+  private loadHeroImage() {
+    // Try to load from Supabase storage, fallback to local assets
+    this.heroImageUrl = this.storageService.getImageWithFallback(
+      'landing/baby-clothes-hero.png',
+      'assets/baby clothes.png'
+    );
   }
 
   ngOnDestroy() {
@@ -95,7 +111,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.showAccordion = !this.showAccordion;
   }
 
-  cartItemCount = 0;
+  // Modal state
 
   goToProfile() {
     if (this.isLoggedIn) {
@@ -124,8 +140,9 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   addToCart(product: Product) {
-    console.log('Adding to cart:', product);
-    // TODO: Implement cart functionality
+    // Open the product modal instead of adding directly
+    // This allows users to select size, color, quantity
+    this.openProductModal(product);
   }
 
   async onRefresh(event: any) {

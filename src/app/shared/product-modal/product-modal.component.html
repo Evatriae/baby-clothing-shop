@@ -1,0 +1,122 @@
+<!-- Product Modal with bulletproof positioning -->
+<div 
+  *ngIf="isOpen" 
+  class="product-modal-overlay" 
+  (click)="onDismiss()"
+  [style]="overlayStyles">
+  
+  <div class="product-modal" (click)="$event.stopPropagation()" *ngIf="product">
+    <div class="modal-header">
+      <ion-button fill="clear" class="close-button" (click)="onDismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </div>
+    
+    <div class="modal-content">
+      <div class="modal-image-section">
+        <img [src]="product.image" [alt]="product.name" class="modal-product-image" 
+             onerror="this.src='assets/placeholder.png'" />
+        <ion-badge *ngIf="product.featured" color="primary" class="featured-badge">
+          Featured
+        </ion-badge>
+      </div>
+      
+      <div class="modal-details-section">
+        <h2 class="modal-product-name">{{ product.name }}</h2>
+        <p class="modal-product-price">{{ formatPrice(product.price) }}</p>
+        
+        <div class="product-description" *ngIf="product.description">
+          <h3>Description</h3>
+          <p>{{ product.description }}</p>
+        </div>
+        
+        <div class="product-options">
+          <!-- Size Selection -->
+          <div class="size-selection" *ngIf="product.sizes && product.sizes.length > 0">
+            <h4>Size</h4>
+            <ion-select 
+              placeholder="Choose Size" 
+              [(ngModel)]="selectedSize"
+              [disabled]="addingToCart"
+              class="option-select">
+              <ion-select-option *ngFor="let size of product.sizes" [value]="size">
+                {{ size }}
+              </ion-select-option>
+            </ion-select>
+          </div>
+          
+          <!-- Color Selection -->
+          <div class="color-selection" *ngIf="product.colors && product.colors.length > 0">
+            <h4>Color</h4>
+            <ion-select 
+              placeholder="Choose Color" 
+              [(ngModel)]="selectedColor"
+              [disabled]="addingToCart"
+              class="option-select">
+              <ion-select-option *ngFor="let color of product.colors" [value]="color">
+                {{ color }}
+              </ion-select-option>
+            </ion-select>
+          </div>
+
+          <!-- Quantity Selection -->
+          <div class="quantity-section">
+            <h4>Quantity</h4>
+            <div class="quantity-controls">
+              <ion-button 
+                fill="outline" 
+                size="small"
+                class="quantity-btn"
+                (click)="decreaseQuantity()"
+                [disabled]="quantity <= 1 || addingToCart">
+                <ion-icon name="remove" slot="icon-only"></ion-icon>
+              </ion-button>
+              
+              <span class="quantity-display">{{ quantity }}</span>
+              
+              <ion-button 
+                fill="outline" 
+                size="small"
+                class="quantity-btn"
+                (click)="increaseQuantity()"
+                [disabled]="addingToCart">
+                <ion-icon name="add" slot="icon-only"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+
+          <!-- Total Price -->
+          <div class="total-price" *ngIf="quantity > 1">
+            <strong>Total: {{ formatPrice(product.price * quantity) }}</strong>
+          </div>
+
+          <!-- Stock Status -->
+          <div class="stock-status">
+            <ion-badge 
+              [color]="product.in_stock ? 'success' : 'danger'"
+              class="stock-badge">
+              {{ product.in_stock ? 'In Stock' : 'Out of Stock' }}
+            </ion-badge>
+          </div>
+        </div>
+        
+        <div class="modal-actions">
+          <ion-button 
+            fill="solid" 
+            class="modal-add-to-cart-btn"
+            [disabled]="!canAddToCart || !product.in_stock"
+            (click)="addToCart()">
+            <ion-spinner *ngIf="addingToCart" slot="start"></ion-spinner>
+            <ion-icon *ngIf="!addingToCart" name="cart" slot="start"></ion-icon>
+            {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
+          </ion-button>
+
+          <!-- Options Reminder -->
+          <div class="options-reminder" *ngIf="hasOptions && !canAddToCart && !addingToCart">
+            <small>Please select all required options above</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

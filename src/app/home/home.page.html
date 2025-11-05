@@ -1,6 +1,5 @@
 <app-toolbar 
   [showAccordion]="showAccordion" 
-  [cartItemCount]="cartItemCount" 
   currentPage="home"
   (toggleAccordion)="onToggleAccordion()" 
   (profileClick)="onProfileClick()">
@@ -14,7 +13,7 @@
   <div class="main-content ion-padding">
     <ion-card class="full-width-card">
       <div class="card-image-wrapper">
-        <img alt="Baby clothes" src="assets/baby clothes.png" class="card-image"/>
+        <img alt="Baby clothes" [src]="heroImageUrl" class="card-image"/>
         <div class="card-overlay">
           <ion-card-title>Your Trusted Shop for Baby Clothes</ion-card-title>
           <ion-button fill="solid" routerLink="/shop">Shop For Your Baby Clothes</ion-button>
@@ -66,64 +65,11 @@
   </div>
 
   <!-- Product Details Modal -->
-  <div class="product-modal-overlay" *ngIf="showProductModal" (click)="closeProductModal()">
-    <div class="product-modal" (click)="$event.stopPropagation()" *ngIf="selectedProduct">
-      <div class="modal-header">
-        <ion-button fill="clear" class="close-button" (click)="closeProductModal()">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-button>
-      </div>
-      
-      <div class="modal-content">
-        <div class="modal-image-section">
-          <img [src]="selectedProduct.image" [alt]="selectedProduct.name" class="modal-product-image" />
-        </div>
-        
-        <div class="modal-details-section">
-          <h2 class="modal-product-name">{{ selectedProduct.name }}</h2>
-          <p class="modal-product-price">${{ selectedProduct.price.toFixed(2) }}</p>
-          
-          <div class="product-description" *ngIf="selectedProduct.description">
-            <h3>Description</h3>
-            <p>{{ selectedProduct.description }}</p>
-          </div>
-          
-          <div class="product-options">
-            <div class="size-selection" *ngIf="selectedProduct.sizes && selectedProduct.sizes.length > 0">
-              <h4>Available Sizes</h4>
-              <div class="size-buttons">
-                <ion-button 
-                  fill="outline" 
-                  size="small" 
-                  class="size-btn"
-                  *ngFor="let size of selectedProduct.sizes">
-                  {{ size }}
-                </ion-button>
-              </div>
-            </div>
-            
-            <div class="color-selection" *ngIf="selectedProduct.colors && selectedProduct.colors.length > 0">
-              <h4>Available Colors</h4>
-              <div class="color-options">
-                <span class="color-option" *ngFor="let color of selectedProduct.colors">
-                  {{ color }}
-                </span>
-              </div>
-            </div>
-          </div>
-          
-          <div class="modal-actions">
-            <ion-button 
-              fill="solid" 
-              class="modal-add-to-cart-btn"
-              (click)="addToCart(selectedProduct)">
-              Add to Cart - ${{ selectedProduct.price.toFixed(2) }}
-            </ion-button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-product-modal 
+    [product]="selectedProduct"
+    [isOpen]="showProductModal"
+    (dismiss)="closeProductModal()">
+  </app-product-modal>
 
   <footer class="main-footer">
     <div class="footer-content">

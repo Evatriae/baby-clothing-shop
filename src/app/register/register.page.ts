@@ -38,7 +38,6 @@ import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 })
 export class RegisterPage implements OnInit {
   showAccordion = false;
-  cartItemCount = 0;
   firstName = '';
   lastName = '';
   email = '';

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
@@ -30,10 +31,9 @@ import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 })
 export class AboutPage implements OnInit {
   showAccordion = false;
-  cartItemCount = 0;
   newsletterEmail = '';
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
   }
@@ -47,7 +47,7 @@ export class AboutPage implements OnInit {
   }
 
   onProfileClick() {
-    // Navigate to profile or login based on auth state
+    this.router.navigate(['/profile']);
   }
 
   subscribeNewsletter() {

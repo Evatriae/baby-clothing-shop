@@ -15,7 +15,7 @@
         </ion-col>
         <ion-col size="auto" class="header-col-right">
           <div class="icon-with-badge">
-            <ion-button fill="clear" class="icon-button" routerLink="/shop">
+            <ion-button fill="clear" class="icon-button" (click)="onCartClick()">
               <ion-icon name="basket" class="large-icon"></ion-icon>
             </ion-button>
             <ion-badge color="danger" class="cart-badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</ion-badge>
@@ -38,6 +38,10 @@
     <ion-list>
       <ion-item button routerLink="/home">Home</ion-item>
       <ion-item button routerLink="/shop">Shop</ion-item>
+      <ion-item button routerLink="/cart">
+        <span>Shopping Cart</span>
+        <ion-badge color="danger" slot="end" *ngIf="cartItemCount > 0">{{ cartItemCount }}</ion-badge>
+      </ion-item>
       <ion-item button routerLink="/contact">Contact Us</ion-item>
       <ion-item button routerLink="/about">About Us</ion-item>
     </ion-list>

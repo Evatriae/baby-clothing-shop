@@ -38,7 +38,6 @@ import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 })
 export class ProfilePage implements OnInit {
   showAccordion = false;
-  cartItemCount = 0;
   user: any = null;
   profile: any = null;
   isLoading = false;

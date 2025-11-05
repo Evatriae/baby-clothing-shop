@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import {
   IonHeader,
   IonToolbar,
@@ -16,6 +17,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { menu, basket, person } from 'ionicons/icons';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -38,15 +40,33 @@ import { menu, basket, person } from 'ionicons/icons';
     IonBadge
   ]
 })
-export class ToolbarComponent {
+export class ToolbarComponent implements OnInit, OnDestroy {
   @Input() showAccordion = false;
-  @Input() cartItemCount = 0;
   @Input() currentPage = '';
   @Output() toggleAccordion = new EventEmitter<void>();
   @Output() profileClick = new EventEmitter<void>();
 
-  constructor() {
+  cartItemCount = 0;
+  private cartSubscription?: Subscription;
+
+  constructor(
+    private router: Router,
+    private cartService: CartService
+  ) {
     addIcons({ menu, basket, person });
+  }
+
+  ngOnInit() {
+    // Subscribe to cart changes to update the badge count
+    this.cartSubscription = this.cartService.cartSummary$.subscribe(summary => {
+      this.cartItemCount = summary.total_items;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
   }
 
   onToggleAccordion() {
@@ -55,5 +75,9 @@ export class ToolbarComponent {
 
   onProfileClick() {
     this.profileClick.emit();
+  }
+
+  onCartClick() {
+    this.router.navigate(['/cart']);
   }
 }

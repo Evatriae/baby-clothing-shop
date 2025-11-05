@@ -38,7 +38,6 @@ import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 })
 export class LoginPage implements OnInit {
   showAccordion = false;
-  cartItemCount = 0;
   email = '';
   password = '';
   isLoading = false;

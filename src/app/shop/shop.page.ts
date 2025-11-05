@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
+import { ProductModalComponent } from '../shared/product-modal/product-modal.component';
 import { ProductService, Product } from '../services/product.service';
 import { CategoryWithProducts } from '../services/product.service';
 
@@ -10,7 +12,7 @@ import { CategoryWithProducts } from '../services/product.service';
   templateUrl: './shop.page.html',
   styleUrls: ['./shop.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ToolbarComponent]
+  imports: [IonicModule, CommonModule, ToolbarComponent, ProductModalComponent]
 })
 export class ShopPage implements OnInit {
   categories: CategoryWithProducts[] = [];
@@ -18,8 +20,12 @@ export class ShopPage implements OnInit {
   error = false;
   showProductModal = false;
   selectedProduct: Product | null = null;
+  showAccordion = false;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
     await this.loadCategories();
@@ -54,7 +60,21 @@ export class ShopPage implements OnInit {
   }
 
   addToCart(product: Product) {
-    console.log('Adding to cart:', product);
-    // TODO: Implement cart functionality
+    // Open the product modal instead of adding directly
+    // This allows users to select size, color, quantity
+    this.openProductModal(product);
+  }
+
+  // Toolbar methods
+  toggleAccordion() {
+    this.showAccordion = !this.showAccordion;
+  }
+
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    this.router.navigate(['/profile']);
   }
 }
