@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
   IonHeader, 
-  IonTitle, 
   IonToolbar, 
   IonButtons, 
   IonButton, 
@@ -31,7 +30,6 @@ import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons'
   imports: [
     IonContent, 
     IonHeader, 
-    IonTitle, 
     IonToolbar, 
     CommonModule, 
     FormsModule, 

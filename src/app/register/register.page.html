@@ -101,11 +101,18 @@
             </ion-input>
           </div>
 
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+
           <ion-button 
             fill="solid" 
             class="register-button"
-            (click)="onRegister()">
-            Register
+            (click)="onRegister()"
+            [disabled]="isLoading">
+            <span *ngIf="!isLoading">Register</span>
+            <span *ngIf="isLoading">Registering...</span>
           </ion-button>
 
           <div class="login-prompt">

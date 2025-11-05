@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
   IonHeader, 
-  IonTitle, 
   IonToolbar,
   IonButtons,
   IonButton,
@@ -17,9 +16,7 @@ import {
   IonItem,
   IonBadge,
   IonCard,
-  IonCardContent,
-  IonModal,
-  IonBackdrop
+  IonCardContent
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { menuOutline, personCircleOutline, basketOutline, closeOutline } from 'ionicons/icons';
@@ -32,7 +29,6 @@ import { menuOutline, personCircleOutline, basketOutline, closeOutline } from 'i
   imports: [
     IonContent, 
     IonHeader, 
-    IonTitle, 
     IonToolbar, 
     CommonModule, 
     FormsModule,
@@ -47,9 +43,7 @@ import { menuOutline, personCircleOutline, basketOutline, closeOutline } from 'i
     IonItem,
     IonBadge,
     IonCard,
-    IonCardContent,
-    IonModal,
-    IonBackdrop
+    IonCardContent
   ]
 })
 export class ShopPage implements OnInit {
