@@ -1,45 +1,10 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button slot="icon-only" (click)="toggleAccordion()" class="menu-button">
-        <ion-icon name="menu-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-grid style="height: 100%;">
-      <ion-row style="align-items: center;">
-        <ion-col class="header-col">
-          <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="menu-button" routerLink="/landing" />
-        </ion-col>
-        <ion-col size="auto" class="header-col">
-          <div class="icon-with-badge">
-            <ion-button fill="clear" class="menu-button">
-              <ion-icon name="basket-outline"></ion-icon>
-            </ion-button>
-            <ion-badge color="danger" class="cart-badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</ion-badge>
-          </div>
-        </ion-col>
-        <ion-col size="auto" class="header-col">
-          <ion-button fill="clear" class="menu-button" routerLink="/login">
-            <ion-icon name="person-circle-outline"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-header>
-
-<!-- Overlay dropdown menu and backdrop -->
-<div *ngIf="showAccordion">
-  <div class="dropdown-backdrop" (click)="toggleAccordion()"></div>
-  <div class="menu-dropdown-overlay">
-    <ion-list>
-      <ion-item button routerLink="/home">Home</ion-item>
-      <ion-item button routerLink="/shop">Shop</ion-item>
-      <ion-item button routerLink="/contact">Contact Us</ion-item>
-      <ion-item button routerLink="/about">About Us</ion-item>
-    </ion-list>
-  </div>
-</div>
+<app-toolbar 
+  [showAccordion]="showAccordion" 
+  [cartItemCount]="cartItemCount" 
+  currentPage="home"
+  (toggleAccordion)="onToggleAccordion()" 
+  (profileClick)="onProfileClick()">
+</app-toolbar>
 
 <ion-content style="position: relative;">
 

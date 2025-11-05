@@ -13,17 +13,49 @@ export class SupabaseAuthService {
   constructor() {
     this.supabase = createClient(
       environment.supabase.url, 
-      environment.supabase.anonKey
+      environment.supabase.anonKey,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
     );
+
+    // Initialize session on app start
+    this.initSession();
 
     // Listen for auth changes
     this.supabase.auth.onAuthStateChange((event: string, session: any) => {
+      console.log('Auth state changed:', event, session?.user?.email);
       this._currentUser.next(session?.user ?? null);
     });
   }
 
+  // Initialize session on app start
+  private async initSession() {
+    try {
+      const { data } = await this.supabase.auth.getSession();
+      if (data.session) {
+        this._currentUser.next(data.session.user);
+        console.log('Session restored for user:', data.session.user.email);
+      }
+    } catch (error) {
+      console.error('Error initializing session:', error);
+    }
+  }
+
   get currentUser() {
     return this._currentUser.asObservable();
+  }
+
+  get currentUserValue() {
+    return this._currentUser.value;
+  }
+
+  get isLoggedIn() {
+    return this._currentUser.value !== null;
   }
 
   async signUp(email: string, password: string, firstName: string, lastName: string) {

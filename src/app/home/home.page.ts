@@ -1,57 +1,52 @@
-import { Component } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgFor } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
-  IonHeader,
-  IonToolbar,
   IonContent,
   IonCard,
   IonCardContent,
-  IonCardTitle,
-  IonButtons,
-  IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonIcon,
-  IonList,
-  IonItem,
-  IonBadge
+  IonCardTitle
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
+import { SupabaseAuthService } from '../services/supabase-auth.service';
+import { Subscription } from 'rxjs';
+import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   imports: [
-    NgIf,
     NgFor,
     RouterModule,
-    IonHeader,
-    IonToolbar,
     IonContent,
     IonCard,
     IonCardContent,
     IonCardTitle,
-    IonButtons,
-    IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonBadge
+    ToolbarComponent
   ],
 })
-export class HomePage {
+export class HomePage implements OnInit, OnDestroy {
   showAccordion = false;
+  isLoggedIn = false;
+  private authSubscription?: Subscription;
 
-  constructor(private router: Router) {
-    addIcons({ menuOutline, personCircleOutline, basketOutline });
+  constructor(
+    private router: Router,
+    private supabaseAuthService: SupabaseAuthService
+  ) {}
+
+  ngOnInit() {
+    // Subscribe to auth state changes
+    this.authSubscription = this.supabaseAuthService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   featuredCategories = [
@@ -76,7 +71,19 @@ export class HomePage {
 
   cartItemCount = 0;
 
-  goToLogin() {
-    this.router.navigate(['/login']);
+  goToProfile() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/profile']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    this.goToProfile();
   }
 }

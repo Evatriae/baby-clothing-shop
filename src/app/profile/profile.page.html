@@ -1,0 +1,138 @@
+<app-toolbar 
+  [showAccordion]="showAccordion" 
+  [cartItemCount]="cartItemCount" 
+  currentPage="profile"
+  (toggleAccordion)="onToggleAccordion()" 
+  (profileClick)="onProfileClick()">
+</app-toolbar>
+
+<ion-content>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>Loading profile...</p>
+  </div>
+
+  <!-- Profile Content -->
+  <div *ngIf="!isLoading && user" class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <ion-icon name="person-circle-outline" class="profile-avatar"></ion-icon>
+      <div class="profile-info">
+        <h2 class="profile-name">
+          {{ firstName && lastName ? firstName + ' ' + lastName : username || 'User' }}
+        </h2>
+        <p class="profile-email">{{ email }}</p>
+      </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Profile Form -->
+    <form class="profile-form">
+      <!-- First Name -->
+      <ion-item class="profile-item">
+        <ion-label position="stacked">First Name</ion-label>
+        <ion-input 
+          type="text" 
+          [(ngModel)]="firstName" 
+          name="firstName"
+          [readonly]="!isEditing"
+          placeholder="Enter your first name">
+        </ion-input>
+      </ion-item>
+
+      <!-- Last Name -->
+      <ion-item class="profile-item">
+        <ion-label position="stacked">Last Name</ion-label>
+        <ion-input 
+          type="text" 
+          [(ngModel)]="lastName" 
+          name="lastName"
+          [readonly]="!isEditing"
+          placeholder="Enter your last name">
+        </ion-input>
+      </ion-item>
+
+      <!-- Username -->
+      <ion-item class="profile-item">
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input 
+          type="text" 
+          [(ngModel)]="username" 
+          name="username"
+          [readonly]="!isEditing"
+          placeholder="Enter your username">
+        </ion-input>
+      </ion-item>
+
+      <!-- Email -->
+      <ion-item class="profile-item">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input 
+          type="email" 
+          [(ngModel)]="email" 
+          name="email"
+          [readonly]="!isEditing"
+          placeholder="Enter your email">
+        </ion-input>
+      </ion-item>
+    </form>
+
+    <!-- Action Buttons -->
+    <div class="profile-actions">
+      <ion-button 
+        *ngIf="!isEditing" 
+        expand="block" 
+        (click)="toggleEdit()"
+        class="action-button edit-button">
+        Edit Profile
+      </ion-button>
+
+      <div *ngIf="isEditing" class="edit-actions">
+        <ion-button 
+          expand="block" 
+          (click)="saveProfile()"
+          [disabled]="isLoading"
+          class="action-button save-button">
+          <ion-spinner *ngIf="isLoading" slot="start"></ion-spinner>
+          Save Changes
+        </ion-button>
+        
+        <ion-button 
+          expand="block" 
+          fill="outline" 
+          (click)="cancelEdit()"
+          [disabled]="isLoading"
+          class="action-button cancel-button">
+          Cancel
+        </ion-button>
+      </div>
+
+      <!-- Sign Out Button -->
+      <ion-button 
+        expand="block" 
+        fill="outline"
+        (click)="signOut()"
+        [disabled]="isLoading"
+        class="action-button sign-out-button">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Sign Out
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Not Logged In -->
+  <div *ngIf="!isLoading && !user" class="not-logged-in">
+    <h2>Please log in to view your profile</h2>
+    <ion-button routerLink="/login" class="login-redirect-button">
+      Go to Login
+    </ion-button>
+  </div>
+</ion-content>

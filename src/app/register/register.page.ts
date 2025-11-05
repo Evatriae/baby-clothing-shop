@@ -4,27 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
-  IonHeader, 
-  IonTitle, 
-  IonToolbar,
-  IonButtons,
   IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonIcon,
-  IonList,
-  IonItem,
-  IonBadge,
   IonCard,
   IonCardContent,
   IonInput,
-  IonInputPasswordToggle
+  IonInputPasswordToggle,
+  IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline, mailOutline, closeOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import { closeOutline, checkmarkCircleOutline, mailOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { SupabaseAuthService } from '../services/supabase-auth.service';
+import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-register',
@@ -33,24 +24,16 @@ import { SupabaseAuthService } from '../services/supabase-auth.service';
   standalone: true,
   imports: [
     IonContent, 
-    IonHeader, 
-    IonToolbar, 
     CommonModule, 
     FormsModule,
     RouterModule,
-    IonButtons,
     IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonBadge,
     IonCard,
     IonCardContent,
     IonInput,
-    IonInputPasswordToggle
+    IonInputPasswordToggle,
+    IonIcon,
+    ToolbarComponent
   ]
 })
 export class RegisterPage implements OnInit {
@@ -69,7 +52,7 @@ export class RegisterPage implements OnInit {
     private router: Router,
     private supabaseAuthService: SupabaseAuthService
   ) {
-    addIcons({ menuOutline, personCircleOutline, basketOutline, mailOutline, closeOutline, checkmarkCircleOutline });
+    addIcons({ closeOutline, checkmarkCircleOutline, mailOutline });
   }
 
   ngOnInit() {
@@ -77,6 +60,14 @@ export class RegisterPage implements OnInit {
 
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
+  }
+
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    this.router.navigate(['/login']);
   }
 
   async onRegister() {

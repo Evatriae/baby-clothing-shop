@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+:host {
+  --ion-background-color: #fff;
+  background: #fff;
+  font-family: 'Jost', sans-serif;
+  --ion-font-family: 'Jost', sans-serif;
+}
+
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background: transparent;
+}
+
+.menu-dropdown-overlay {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.menu-dropdown-overlay ion-list {
+  background: #fff !important;
+}
+
+.menu-dropdown-overlay ion-item {
+  --background: #fff !important;
+  background: #fff !important;
+  color: black;
+}
+
+ion-toolbar {
+  --background: #38E9C0;
+  --min-height: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+ion-header {
+  border-bottom: none;
+}
+
+ion-toolbar ion-grid {
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+ion-toolbar ion-row {
+  height: 100px;
+  align-items: center;
+  width: 100%;
+}
+
+.header-col-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 15px;
+}
+
+.header-col-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.header-col-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 2px;
+}
+
+.main-logo {
+  height: 70px;
+  width: 70px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.menu-button,
+.icon-button {
+  --color: white;
+  color: white;
+  height: 50px;
+  width: 50px;
+  --padding-start: 0;
+  --padding-end: 0;
+  margin: 0 1px;
+  
+  &[disabled] {
+    opacity: 1;
+    cursor: default;
+    --color: #ff6b6b;
+  }
+}
+
+.large-icon {
+  font-size: 42px;
+  width: 42px;
+  height: 42px;
+  color: white;
+}
+
+// Ensure all ion-icons in buttons are consistent
+ion-button ion-icon {
+  color: white;
+  font-size: 42px;
+  width: 42px;
+  height: 42px;
+}
+
+.icon-with-badge {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  font-size: 12px;
+  min-width: 20px;
+  height: 20px;
+}

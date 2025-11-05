@@ -4,23 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
-  IonHeader, 
-  IonToolbar, 
-  IonButtons, 
   IonButton, 
-  IonGrid, 
-  IonRow, 
-  IonCol, 
-  IonIcon, 
-  IonList, 
-  IonItem, 
-  IonBadge,
   IonCard,
   IonCardContent,
   IonInput
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons';
+import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-about',
@@ -29,23 +18,14 @@ import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons'
   standalone: true,
   imports: [
     IonContent, 
-    IonHeader, 
-    IonToolbar, 
     CommonModule, 
-    FormsModule, 
-    RouterModule, 
-    IonButtons, 
-    IonButton, 
-    IonGrid, 
-    IonRow, 
-    IonCol, 
-    IonIcon, 
-    IonList,
-    IonItem,
-    IonBadge,
+    FormsModule,
+    RouterModule,
+    IonButton,
     IonCard,
     IonCardContent,
-    IonInput
+    IonInput,
+    ToolbarComponent
   ]
 })
 export class AboutPage implements OnInit {
@@ -53,15 +33,21 @@ export class AboutPage implements OnInit {
   cartItemCount = 0;
   newsletterEmail = '';
 
-  constructor() {
-    addIcons({ menuOutline, personCircleOutline, basketOutline });
-  }
+  constructor() {}
 
   ngOnInit() {
   }
 
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
+  }
+
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    // Navigate to profile or login based on auth state
   }
 
   subscribeNewsletter() {

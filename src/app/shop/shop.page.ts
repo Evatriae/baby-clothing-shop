@@ -4,22 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
-  IonHeader, 
-  IonToolbar,
-  IonButtons,
   IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonIcon,
-  IonList,
-  IonItem,
-  IonBadge,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline, closeOutline } from 'ionicons/icons';
+import { closeOutline } from 'ionicons/icons';
+import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-shop',
@@ -28,22 +20,14 @@ import { menuOutline, personCircleOutline, basketOutline, closeOutline } from 'i
   standalone: true,
   imports: [
     IonContent, 
-    IonHeader, 
-    IonToolbar, 
     CommonModule, 
     FormsModule,
     RouterModule,
-    IonButtons,
     IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonBadge,
     IonCard,
-    IonCardContent
+    IonCardContent,
+    IonIcon,
+    ToolbarComponent
   ]
 })
 export class ShopPage implements OnInit {
@@ -300,7 +284,7 @@ export class ShopPage implements OnInit {
   ];
 
   constructor() {
-    addIcons({ menuOutline, personCircleOutline, basketOutline, closeOutline });
+    addIcons({ closeOutline });
   }
 
   ngOnInit() {
@@ -308,6 +292,14 @@ export class ShopPage implements OnInit {
 
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
+  }
+
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    // Navigate to profile or login based on auth state
   }
 
   openProductModal(product: any) {
