@@ -7,6 +7,9 @@
 </app-toolbar>
 
 <ion-content style="position: relative;">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="main-content ion-padding">
     <ion-card class="full-width-card">
@@ -19,28 +22,106 @@
       </div>
     </ion-card>
 
-    <!-- Featured Categories -->
-    <div class="featured-label">
-      <h2>Featured Categories</h2>
-    </div>
-    <div class="categories-vertical-scroll">
-      <div class="category-item" *ngFor="let category of featuredCategories">
-        <img [src]="category.img" [alt]="category.name" class="category-img"/>
-        <div class="category-name">{{ category.name }}</div>
-      </div>
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <ion-spinner></ion-spinner>
+      <p>Loading products...</p>
     </div>
 
-    <!-- Best Sellers -->
-    <div class="best-sellers-label">
-      <h2>Best Sellers</h2>
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="error-container">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>Error loading products. Please try again.</p>
+      <ion-button fill="outline" (click)="loadData()">
+        Retry
+      </ion-button>
     </div>
-    <div class="best-sellers-grid">
-      <ion-card class="best-seller-card best-seller-item" *ngFor="let item of bestSellers">
-        <img [src]="item.img" [alt]="item.name" class="best-seller-img"/>
-        <ion-card-content>
-          <div class="best-seller-name">{{ item.name }}</div>
-        </ion-card-content>
-      </ion-card>
+
+    <div *ngIf="!loading && !error">
+      <!-- Featured Categories -->
+      <div class="featured-label">
+        <h2>Featured Categories</h2>
+      </div>
+      <div class="categories-vertical-scroll" *ngIf="categories.length > 0">
+        <div class="category-item" *ngFor="let category of categories">
+          <img [src]="category.image" [alt]="category.name" class="category-img"/>
+          <div class="category-name">{{ category.name }}</div>
+        </div>
+      </div>
+
+      <!-- Featured Products -->
+      <div class="best-sellers-label">
+        <h2>Featured Products</h2>
+      </div>
+      <div class="best-sellers-grid" *ngIf="featuredProducts.length > 0">
+        <ion-card class="best-seller-card best-seller-item" *ngFor="let product of featuredProducts" (click)="openProductModal(product)">
+          <img [src]="product.image" [alt]="product.name" class="best-seller-img"/>
+          <ion-card-content>
+            <div class="best-seller-name">{{ product.name }}</div>
+            <div class="best-seller-price">${{ product.price.toFixed(2) }}</div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Details Modal -->
+  <div class="product-modal-overlay" *ngIf="showProductModal" (click)="closeProductModal()">
+    <div class="product-modal" (click)="$event.stopPropagation()" *ngIf="selectedProduct">
+      <div class="modal-header">
+        <ion-button fill="clear" class="close-button" (click)="closeProductModal()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      
+      <div class="modal-content">
+        <div class="modal-image-section">
+          <img [src]="selectedProduct.image" [alt]="selectedProduct.name" class="modal-product-image" />
+        </div>
+        
+        <div class="modal-details-section">
+          <h2 class="modal-product-name">{{ selectedProduct.name }}</h2>
+          <p class="modal-product-price">${{ selectedProduct.price.toFixed(2) }}</p>
+          
+          <div class="product-description" *ngIf="selectedProduct.description">
+            <h3>Description</h3>
+            <p>{{ selectedProduct.description }}</p>
+          </div>
+          
+          <div class="product-options">
+            <div class="size-selection" *ngIf="selectedProduct.sizes && selectedProduct.sizes.length > 0">
+              <h4>Available Sizes</h4>
+              <div class="size-buttons">
+                <ion-button 
+                  fill="outline" 
+                  size="small" 
+                  class="size-btn"
+                  *ngFor="let size of selectedProduct.sizes">
+                  {{ size }}
+                </ion-button>
+              </div>
+            </div>
+            
+            <div class="color-selection" *ngIf="selectedProduct.colors && selectedProduct.colors.length > 0">
+              <h4>Available Colors</h4>
+              <div class="color-options">
+                <span class="color-option" *ngFor="let color of selectedProduct.colors">
+                  {{ color }}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-actions">
+            <ion-button 
+              fill="solid" 
+              class="modal-add-to-cart-btn"
+              (click)="addToCart(selectedProduct)">
+              Add to Cart - ${{ selectedProduct.price.toFixed(2) }}
+            </ion-button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

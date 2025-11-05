@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
-import { ProductService, Product } from '../services/product.service';
+import { ProductService } from '../services/product.service';
 import { CategoryWithProducts } from '../services/product.service';
 
 @Component({
@@ -16,8 +16,6 @@ export class ShopPage implements OnInit {
   categories: CategoryWithProducts[] = [];
   loading = true;
   error = false;
-  showProductModal = false;
-  selectedProduct: Product | null = null;
 
   constructor(private productService: ProductService) {}
 
@@ -41,20 +39,5 @@ export class ShopPage implements OnInit {
   async onRefresh(event: any) {
     await this.loadCategories();
     event.target.complete();
-  }
-
-  openProductModal(product: Product) {
-    this.selectedProduct = product;
-    this.showProductModal = true;
-  }
-
-  closeProductModal() {
-    this.showProductModal = false;
-    this.selectedProduct = null;
-  }
-
-  addToCart(product: Product) {
-    console.log('Adding to cart:', product);
-    // TODO: Implement cart functionality
   }
 }

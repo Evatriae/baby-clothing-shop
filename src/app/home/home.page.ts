@@ -1,14 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
   IonContent,
   IonCard,
   IonCardContent,
-  IonCardTitle
+  IonCardTitle,
+  IonButton,
+  IonIcon,
+  IonSpinner,
+  IonRefresher,
+  IonRefresherContent
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { SupabaseAuthService } from '../services/supabase-auth.service';
+import { ProductService, Product, CategoryWithProducts } from '../services/product.service';
 import { Subscription } from 'rxjs';
 import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 
@@ -18,11 +24,17 @@ import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
   styleUrls: ['home.page.scss'],
   imports: [
     NgFor,
+    CommonModule,
     RouterModule,
     IonContent,
     IonCard,
     IonCardContent,
     IonCardTitle,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+    IonRefresher,
+    IonRefresherContent,
     ToolbarComponent
   ],
 })
@@ -30,17 +42,29 @@ export class HomePage implements OnInit, OnDestroy {
   showAccordion = false;
   isLoggedIn = false;
   private authSubscription?: Subscription;
+  
+  // Product-related properties
+  featuredProducts: Product[] = [];
+  categories: CategoryWithProducts[] = [];
+  loading = true;
+  error = false;
+  showProductModal = false;
+  selectedProduct: Product | null = null;
 
   constructor(
     private router: Router,
-    private supabaseAuthService: SupabaseAuthService
+    private supabaseAuthService: SupabaseAuthService,
+    private productService: ProductService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // Subscribe to auth state changes
     this.authSubscription = this.supabaseAuthService.currentUser.subscribe(user => {
       this.isLoggedIn = !!user;
     });
+    
+    // Load products data
+    await this.loadData();
   }
 
   ngOnDestroy() {
@@ -49,21 +73,23 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  featuredCategories = [
-    { name: 'Pink with Flowers', img: 'assets/M-1.png' },
-    { name: 'White and Pink', img: 'assets/162198a6-d981-4ff8-8008-74545cc053cf.png' },
-    { name: 'Harlow Sets', img: 'assets/usoEdK.png' },
-    { name: 'New Trends', img: 'assets/Smith-and-Wesson-MP-1.png' },
-  ];
-
-  bestSellers = [
-    { name: 'Chloe Set', img: 'assets/108861-DEFAULT-l.png' },
-    { name: 'Romper with Stripes', img: 'assets/98879-DEFAULT-l.png' },
-    { name: 'Pink Dress', img: 'assets/stainless-raptor-9mm_2.png' },
-    { name: 'Short Sleeve', img: 'assets/66127e1e1ddc0_large.png' },
-    { name: 'Flower Sets', img: 'assets/receiver_pump-jpg-1.png' },
-    { name: 'Romper with Hearts', img: 'assets/K-1.png' }
-  ];
+  async loadData() {
+    try {
+      this.loading = true;
+      this.error = false;
+      
+      // Load featured products and categories
+      [this.featuredProducts, this.categories] = await Promise.all([
+        this.productService.getFeaturedProducts(),
+        this.productService.getCategoriesWithProducts()
+      ]);
+    } catch (error) {
+      console.error('Error loading data:', error);
+      this.error = true;
+    } finally {
+      this.loading = false;
+    }
+  }
 
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
@@ -85,5 +111,25 @@ export class HomePage implements OnInit, OnDestroy {
 
   onProfileClick() {
     this.goToProfile();
+  }
+
+  openProductModal(product: Product) {
+    this.selectedProduct = product;
+    this.showProductModal = true;
+  }
+
+  closeProductModal() {
+    this.showProductModal = false;
+    this.selectedProduct = null;
+  }
+
+  addToCart(product: Product) {
+    console.log('Adding to cart:', product);
+    // TODO: Implement cart functionality
+  }
+
+  async onRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
   }
 }
