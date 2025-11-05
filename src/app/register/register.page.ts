@@ -22,7 +22,8 @@ import {
   IonInputPasswordToggle
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline, mailOutline } from 'ionicons/icons';
+import { menuOutline, personCircleOutline, basketOutline, mailOutline, closeOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -60,9 +61,10 @@ export class RegisterPage implements OnInit {
   email = '';
   password = '';
   confirmPassword = '';
+  showSuccessModal = false;
 
-  constructor() {
-    addIcons({ menuOutline, personCircleOutline, basketOutline, mailOutline });
+  constructor(private router: Router) {
+    addIcons({ menuOutline, personCircleOutline, basketOutline, mailOutline, closeOutline, checkmarkCircleOutline });
   }
 
   ngOnInit() {
@@ -73,6 +75,17 @@ export class RegisterPage implements OnInit {
   }
 
   onRegister() {
+    // Basic validation
+    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+      console.log('Please fill in all fields');
+      return;
+    }
+
+    if (this.password !== this.confirmPassword) {
+      console.log('Passwords do not match');
+      return;
+    }
+
     // Add registration logic here
     console.log('Register attempt:', { 
       firstName: this.firstName,
@@ -80,5 +93,19 @@ export class RegisterPage implements OnInit {
       email: this.email, 
       password: this.password 
     });
+    
+    // Simulate API call delay, then show success modal
+    setTimeout(() => {
+      this.showSuccessModal = true;
+    }, 100);
+  }
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
+  }
+
+  goToLogin() {
+    this.showSuccessModal = false;
+    this.router.navigate(['/login']);
   }
 }
