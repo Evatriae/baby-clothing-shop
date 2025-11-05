@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -19,6 +20,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +29,7 @@ import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons'
   imports: [
     NgIf,
     NgFor,
+    RouterModule,
     IonHeader,
     IonToolbar,
     IonContent,
@@ -47,7 +50,7 @@ import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons'
 export class HomePage {
   showAccordion = false;
 
-  constructor() {
+  constructor(private router: Router) {
     addIcons({ menuOutline, personCircleOutline, basketOutline });
   }
 
@@ -72,4 +75,8 @@ export class HomePage {
   }
 
   cartItemCount = 0;
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
 }

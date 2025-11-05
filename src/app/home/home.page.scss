@@ -276,16 +276,38 @@ ion-card-title {
   height: 50px;
   margin-left: 12px;
   margin-right: 12px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
 
 .menu-button ion-icon {
   color: #fff !important;
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
 }
 
-.menu-button ion-icon{
-  font-size: 48px;
-  width: 50px;
-  height: 50px;
+ion-toolbar ion-button.menu-button ion-icon {
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+  color: #fff !important;
+}
+
+ion-toolbar ion-icon {
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+  color: #fff !important;
+}
+
+ion-toolbar ion-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
 }
 
 .header-col {
