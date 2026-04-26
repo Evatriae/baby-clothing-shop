@@ -4,26 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
-  IonHeader, 
-  IonTitle, 
-  IonToolbar,
-  IonButtons,
   IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonIcon,
-  IonList,
-  IonItem,
-  IonBadge,
   IonCard,
   IonCardContent,
   IonInput,
-  IonInputPasswordToggle
+  IonInputPasswordToggle,
+  IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline, mailOutline, closeOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import { closeOutline, checkmarkCircleOutline, mailOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
+import { SupabaseAuthService } from '../services/supabase-auth.service';
+import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-register',
@@ -32,39 +24,34 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     IonContent, 
-    IonHeader, 
-    IonTitle, 
-    IonToolbar, 
     CommonModule, 
     FormsModule,
     RouterModule,
-    IonButtons,
     IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonBadge,
     IonCard,
     IonCardContent,
     IonInput,
-    IonInputPasswordToggle
+    IonInputPasswordToggle,
+    IonIcon,
+    ToolbarComponent
   ]
 })
 export class RegisterPage implements OnInit {
   showAccordion = false;
-  cartItemCount = 0;
   firstName = '';
   lastName = '';
   email = '';
   password = '';
   confirmPassword = '';
   showSuccessModal = false;
+  isLoading = false;
+  errorMessage = '';
 
-  constructor(private router: Router) {
-    addIcons({ menuOutline, personCircleOutline, basketOutline, mailOutline, closeOutline, checkmarkCircleOutline });
+  constructor(
+    private router: Router,
+    private supabaseAuthService: SupabaseAuthService
+  ) {
+    addIcons({ closeOutline, checkmarkCircleOutline, mailOutline });
   }
 
   ngOnInit() {
@@ -74,30 +61,68 @@ export class RegisterPage implements OnInit {
     this.showAccordion = !this.showAccordion;
   }
 
-  onRegister() {
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    this.router.navigate(['/login']);
+  }
+
+  async onRegister() {
+    // Reset error message
+    this.errorMessage = '';
+
     // Basic validation
     if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
-      console.log('Please fill in all fields');
+      this.errorMessage = 'Please fill in all fields';
       return;
     }
 
     if (this.password !== this.confirmPassword) {
-      console.log('Passwords do not match');
+      this.errorMessage = 'Passwords do not match';
       return;
     }
 
-    // Add registration logic here
-    console.log('Register attempt:', { 
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email, 
-      password: this.password 
-    });
-    
-    // Simulate API call delay, then show success modal
-    setTimeout(() => {
+    if (this.password.length < 6) {
+      this.errorMessage = 'Password must be at least 6 characters long';
+      return;
+    }
+
+    // Start loading
+    this.isLoading = true;
+
+    try {
+      // Register user with Supabase
+      const { data, error } = await this.supabaseAuthService.signUp(
+        this.email,
+        this.password,
+        this.firstName,
+        this.lastName
+      );
+
+      if (error) {
+        this.errorMessage = error;
+        this.isLoading = false;
+        return;
+      }
+
+      // Registration successful
+      this.isLoading = false;
       this.showSuccessModal = true;
-    }, 100);
+      
+      // Clear form
+      this.firstName = '';
+      this.lastName = '';
+      this.email = '';
+      this.password = '';
+      this.confirmPassword = '';
+
+    } catch (error: any) {
+      this.isLoading = false;
+      this.errorMessage = 'Registration failed. Please try again.';
+      console.error('Registration error:', error);
+    }
   }
 
   closeSuccessModal() {

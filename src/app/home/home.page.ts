@@ -1,82 +1,152 @@
-import { Component } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgFor, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
-  IonHeader,
-  IonToolbar,
   IonContent,
   IonCard,
   IonCardContent,
   IonCardTitle,
-  IonButtons,
   IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonIcon,
-  IonList,
-  IonItem,
-  IonBadge
+  IonSpinner,
+  IonRefresher,
+  IonRefresherContent
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
+import { SupabaseAuthService } from '../services/supabase-auth.service';
+import { ProductService, Product, CategoryWithProducts } from '../services/product.service';
+import { StorageService } from '../services/storage.service';
+import { Subscription } from 'rxjs';
+import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
+import { ProductModalComponent } from '../shared/product-modal/product-modal.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   imports: [
-    NgIf,
     NgFor,
+    CommonModule,
     RouterModule,
-    IonHeader,
-    IonToolbar,
     IonContent,
     IonCard,
     IonCardContent,
     IonCardTitle,
-    IonButtons,
     IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
     IonIcon,
-    IonList,
-    IonItem,
-    IonBadge
+    IonSpinner,
+    IonRefresher,
+    IonRefresherContent,
+    ToolbarComponent,
+    ProductModalComponent
   ],
 })
-export class HomePage {
+export class HomePage implements OnInit, OnDestroy {
   showAccordion = false;
+  isLoggedIn = false;
+  private authSubscription?: Subscription;
+  
+  // Product-related properties
+  featuredProducts: Product[] = [];
+  categories: CategoryWithProducts[] = [];
+  loading = true;
+  error = false;
+  showProductModal = false;
+  selectedProduct: Product | null = null;
+  heroImageUrl: string = '';
 
-  constructor(private router: Router) {
-    addIcons({ menuOutline, personCircleOutline, basketOutline });
+  constructor(
+    private router: Router,
+    private supabaseAuthService: SupabaseAuthService,
+    private productService: ProductService,
+    private storageService: StorageService
+  ) {}
+
+  async ngOnInit() {
+    // Subscribe to auth state changes
+    this.authSubscription = this.supabaseAuthService.currentUser.subscribe(user => {
+      this.isLoggedIn = !!user;
+    });
+    
+    // Load hero image from Supabase storage
+    this.loadHeroImage();
+    
+    // Load products data
+    await this.loadData();
   }
 
-  featuredCategories = [
-    { name: 'Pink with Flowers', img: 'assets/M-1.png' },
-    { name: 'White and Pink', img: 'assets/162198a6-d981-4ff8-8008-74545cc053cf.png' },
-    { name: 'Harlow Sets', img: 'assets/usoEdK.png' },
-    { name: 'New Trends', img: 'assets/Smith-and-Wesson-MP-1.png' },
-  ];
+  private loadHeroImage() {
+    // Try to load from Supabase storage, fallback to local assets
+    this.heroImageUrl = this.storageService.getImageWithFallback(
+      'landing/baby-clothes-hero.png',
+      'assets/baby clothes.png'
+    );
+  }
 
-  bestSellers = [
-    { name: 'Chloe Set', img: 'assets/108861-DEFAULT-l.png' },
-    { name: 'Romper with Stripes', img: 'assets/98879-DEFAULT-l.png' },
-    { name: 'Pink Dress', img: 'assets/stainless-raptor-9mm_2.png' },
-    { name: 'Short Sleeve', img: 'assets/66127e1e1ddc0_large.png' },
-    { name: 'Flower Sets', img: 'assets/receiver_pump-jpg-1.png' },
-    { name: 'Romper with Hearts', img: 'assets/K-1.png' }
-  ];
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
+  async loadData() {
+    try {
+      this.loading = true;
+      this.error = false;
+      
+      // Load featured products and categories
+      [this.featuredProducts, this.categories] = await Promise.all([
+        this.productService.getFeaturedProducts(),
+        this.productService.getCategoriesWithProducts()
+      ]);
+    } catch (error) {
+      console.error('Error loading data:', error);
+      this.error = true;
+    } finally {
+      this.loading = false;
+    }
+  }
 
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
   }
 
-  cartItemCount = 0;
+  // Modal state
 
-  goToLogin() {
-    this.router.navigate(['/login']);
+  goToProfile() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/profile']);
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    this.goToProfile();
+  }
+
+  openProductModal(product: Product) {
+    this.selectedProduct = product;
+    this.showProductModal = true;
+  }
+
+  closeProductModal() {
+    this.showProductModal = false;
+    this.selectedProduct = null;
+  }
+
+  addToCart(product: Product) {
+    // Open the product modal instead of adding directly
+    // This allows users to select size, color, quantity
+    this.openProductModal(product);
+  }
+
+  async onRefresh(event: any) {
+    await this.loadData();
+    event.target.complete();
   }
 }

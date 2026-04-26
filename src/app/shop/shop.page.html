@@ -1,47 +1,15 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button slot="icon-only" (click)="toggleAccordion()" class="menu-button">
-        <ion-icon name="menu-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-grid style="height: 100%;">
-      <ion-row style="align-items: center;">
-        <ion-col class="header-col">
-          <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="menu-button" routerLink="/landing" />
-        </ion-col>
-        <ion-col size="auto" class="header-col">
-          <div class="icon-with-badge">
-            <ion-button fill="clear" class="menu-button">
-              <ion-icon name="basket-outline"></ion-icon>
-            </ion-button>
-            <ion-badge color="danger" class="cart-badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</ion-badge>
-          </div>
-        </ion-col>
-        <ion-col size="auto" class="header-col">
-          <ion-button fill="clear" class="menu-button" routerLink="/login">
-            <ion-icon name="person-circle-outline"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-header>
-
-<!-- Overlay dropdown menu and backdrop -->
-<div *ngIf="showAccordion">
-  <div class="dropdown-backdrop" (click)="toggleAccordion()"></div>
-  <div class="menu-dropdown-overlay">
-    <ion-list>
-      <ion-item button routerLink="/home">Home</ion-item>
-      <ion-item button routerLink="/shop">Shop</ion-item>
-      <ion-item button routerLink="/contact">Contact Us</ion-item>
-      <ion-item button routerLink="/about">About Us</ion-item>
-    </ion-list>
-  </div>
-</div>
+<app-toolbar 
+  [showAccordion]="showAccordion"
+  currentPage="shop"
+  (toggleAccordion)="onToggleAccordion()" 
+  (profileClick)="onProfileClick()">
+</app-toolbar>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="page-wrapper">
     <div class="main-content ion-padding">
       
@@ -51,8 +19,24 @@
         <div class="shop-content">
           <p>Browse our collection of adorable baby clothing!</p>
           
+          <!-- Loading State -->
+          <div *ngIf="loading" class="loading-container">
+            <ion-spinner></ion-spinner>
+            <p>Loading products...</p>
+          </div>
+          
+          <!-- Error State -->
+          <div *ngIf="error && !loading" class="error-container">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <p>Error loading products. Please try again.</p>
+            <ion-button fill="outline" (click)="loadCategories()">
+              Retry
+            </ion-button>
+          </div>
+          
           <!-- Categories Section -->
-          <div class="categories-section" *ngFor="let category of categories">
+          <div *ngIf="!loading && !error">
+            <div class="categories-section" *ngFor="let category of categories">
             <h2 class="category-title">{{ category.name }}</h2>
             
             <!-- Horizontal Scrolling Products -->
@@ -65,7 +49,7 @@
                     </div>
                     <ion-card-content class="product-content">
                       <h3 class="product-name">{{ product.name }}</h3>
-                      <p class="product-price">{{ product.price }}</p>
+                      <p class="product-price">${{ product.price.toFixed(2) }}</p>
                       <ion-button 
                         fill="solid" 
                         size="small" 
@@ -78,6 +62,7 @@
                 </div>
               </div>
             </div>
+            </div>
           </div>
         </div>
       </div>
@@ -85,64 +70,11 @@
     </div>
 
     <!-- Product Details Modal -->
-    <div class="product-modal-overlay" *ngIf="showProductModal" (click)="closeProductModal()">
-      <div class="product-modal" (click)="$event.stopPropagation()" *ngIf="selectedProduct">
-        <div class="modal-header">
-          <ion-button fill="clear" class="close-button" (click)="closeProductModal()">
-            <ion-icon name="close-outline"></ion-icon>
-          </ion-button>
-        </div>
-        
-        <div class="modal-content">
-          <div class="modal-image-section">
-            <img [src]="selectedProduct.image" [alt]="selectedProduct.name" class="modal-product-image" />
-          </div>
-          
-          <div class="modal-details-section">
-            <h2 class="modal-product-name">{{ selectedProduct.name }}</h2>
-            <p class="modal-product-price">{{ selectedProduct.price }}</p>
-            
-            <div class="product-description">
-              <h3>Description</h3>
-              <p>{{ selectedProduct.description }}</p>
-            </div>
-            
-            <div class="product-options">
-              <div class="size-selection">
-                <h4>Available Sizes</h4>
-                <div class="size-buttons">
-                  <ion-button 
-                    fill="outline" 
-                    size="small" 
-                    class="size-btn"
-                    *ngFor="let size of selectedProduct.sizes">
-                    {{ size }}
-                  </ion-button>
-                </div>
-              </div>
-              
-              <div class="color-selection">
-                <h4>Available Colors</h4>
-                <div class="color-options">
-                  <span class="color-option" *ngFor="let color of selectedProduct.colors">
-                    {{ color }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="modal-actions">
-              <ion-button 
-                fill="solid" 
-                class="modal-add-to-cart-btn"
-                (click)="addToCart(selectedProduct)">
-                Add to Cart - {{ selectedProduct.price }}
-              </ion-button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <app-product-modal 
+      [product]="selectedProduct"
+      [isOpen]="showProductModal"
+      (dismiss)="closeProductModal()">
+    </app-product-modal>
 
     <footer class="main-footer">
       <div class="footer-content">

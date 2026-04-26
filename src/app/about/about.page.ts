@@ -1,27 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { 
   IonContent, 
-  IonHeader, 
-  IonTitle, 
-  IonToolbar, 
-  IonButtons, 
   IonButton, 
-  IonGrid, 
-  IonRow, 
-  IonCol, 
-  IonIcon, 
-  IonList, 
-  IonItem, 
-  IonBadge,
   IonCard,
   IonCardContent,
   IonInput
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons';
+import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-about',
@@ -30,40 +19,35 @@ import { menuOutline, personCircleOutline, basketOutline } from 'ionicons/icons'
   standalone: true,
   imports: [
     IonContent, 
-    IonHeader, 
-    IonTitle, 
-    IonToolbar, 
     CommonModule, 
-    FormsModule, 
-    RouterModule, 
-    IonButtons, 
-    IonButton, 
-    IonGrid, 
-    IonRow, 
-    IonCol, 
-    IonIcon, 
-    IonList,
-    IonItem,
-    IonBadge,
+    FormsModule,
+    RouterModule,
+    IonButton,
     IonCard,
     IonCardContent,
-    IonInput
+    IonInput,
+    ToolbarComponent
   ]
 })
 export class AboutPage implements OnInit {
   showAccordion = false;
-  cartItemCount = 0;
   newsletterEmail = '';
 
-  constructor() {
-    addIcons({ menuOutline, personCircleOutline, basketOutline });
-  }
+  constructor(private router: Router) {}
 
   ngOnInit() {
   }
 
   toggleAccordion() {
     this.showAccordion = !this.showAccordion;
+  }
+
+  onToggleAccordion() {
+    this.toggleAccordion();
+  }
+
+  onProfileClick() {
+    this.router.navigate(['/profile']);
   }
 
   subscribeNewsletter() {

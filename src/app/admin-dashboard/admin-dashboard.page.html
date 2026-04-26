@@ -1,0 +1,334 @@
+<!-- Top bar -->
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">👶</div>
+      <div>
+        <div class="sidebar-title">BabyShop</div>
+        <div class="sidebar-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item" [class.active]="activeTab === 'overview'" (click)="switchTab('overview')">
+        <ion-icon name="grid-outline"></ion-icon>
+        <span>Overview</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'products'" (click)="switchTab('products')">
+        <ion-icon name="shirt-outline"></ion-icon>
+        <span>Products</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'sales'" (click)="switchTab('sales')">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        <span>Sales</span>
+      </button>
+    </nav>
+
+    <button class="logout-btn" (click)="onLogout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+      <span>Sign Out</span>
+    </button>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-area">
+    <div *ngIf="loading" class="center-spinner">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading dashboard...</p>
+    </div>
+
+    <!-- ─── OVERVIEW ─────────────────────────────────────── -->
+    <div *ngIf="!loading && activeTab === 'overview'" class="tab-content">
+      <h2 class="tab-title">Dashboard Overview</h2>
+
+      <div class="stat-grid" *ngIf="stats">
+        <div class="stat-card accent-teal">
+          <div class="stat-icon"><ion-icon name="shirt-outline"></ion-icon></div>
+          <div class="stat-body">
+            <div class="stat-value">{{ stats.totalProducts }}</div>
+            <div class="stat-label">Total Products</div>
+          </div>
+        </div>
+        <div class="stat-card accent-green">
+          <div class="stat-icon"><ion-icon name="checkmark-circle-outline"></ion-icon></div>
+          <div class="stat-body">
+            <div class="stat-value">{{ stats.inStockProducts }}</div>
+            <div class="stat-label">In Stock</div>
+          </div>
+        </div>
+        <div class="stat-card accent-purple">
+          <div class="stat-icon"><ion-icon name="receipt-outline"></ion-icon></div>
+          <div class="stat-body">
+            <div class="stat-value">{{ stats.sales.totalOrders }}</div>
+            <div class="stat-label">Cart Items</div>
+          </div>
+        </div>
+        <div class="stat-card accent-orange">
+          <div class="stat-icon"><ion-icon name="trending-up-outline"></ion-icon></div>
+          <div class="stat-body">
+            <div class="stat-value">{{ formatPrice(stats.sales.totalRevenue) }}</div>
+            <div class="stat-label">Total Revenue</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Products -->
+      <div class="panel" *ngIf="stats?.topProducts?.length">
+        <div class="panel-header">
+          <ion-icon name="star-outline"></ion-icon>
+          <h3>Top Products by Revenue</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product</th>
+              <th>Units Sold</th>
+              <th>Revenue</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of stats!.topProducts; let i = index">
+              <td class="rank">{{ i + 1 }}</td>
+              <td>{{ item.product.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td class="revenue">{{ formatPrice(item.revenue) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Recent Cart Activity -->
+      <div class="panel" *ngIf="stats?.recentSales?.length">
+        <div class="panel-header">
+          <ion-icon name="cart-outline"></ion-icon>
+          <h3>Recent Cart Activity</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sale of stats!.recentSales">
+              <td>{{ sale.product?.name ?? '—' }}</td>
+              <td>{{ sale.quantity }}</td>
+              <td>{{ sale.selected_size || '—' }}</td>
+              <td>{{ sale.selected_color || '—' }}</td>
+              <td class="muted">{{ formatDate(sale.created_at) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty-state" *ngIf="stats && !stats.recentSales.length">
+        <ion-icon name="cart-outline"></ion-icon>
+        <p>No cart activity yet</p>
+      </div>
+    </div>
+
+    <!-- ─── PRODUCTS ──────────────────────────────────────── -->
+    <div *ngIf="!loading && activeTab === 'products'" class="tab-content">
+      <div class="tab-header">
+        <h2 class="tab-title">Products</h2>
+        <button class="add-btn" (click)="openCreateForm()">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <span>Add Product</span>
+        </button>
+      </div>
+
+      <div class="search-bar">
+        <ion-icon name="search-outline"></ion-icon>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (input)="applySearch()"
+          placeholder="Search products by name...">
+      </div>
+
+      <div *ngIf="productLoading" class="center-spinner">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+
+      <div class="panel" *ngIf="!productLoading">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Featured</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of filteredProducts">
+              <td>
+                <img [src]="p.image || 'assets/placeholder.png'" alt="" class="thumb"
+                     onerror="this.src='assets/baby-clothes-icon-isolated-on-white-background-vector.png'">
+              </td>
+              <td class="product-name">{{ p.name }}</td>
+              <td class="muted">{{ getCategoryName(p.category_id) }}</td>
+              <td>{{ formatPrice(p.price) }}</td>
+              <td>
+                <span class="badge" [class.badge-green]="p.in_stock" [class.badge-red]="!p.in_stock">
+                  {{ p.in_stock ? 'In Stock' : 'Out' }}
+                </span>
+              </td>
+              <td>
+                <span class="badge badge-yellow" *ngIf="p.featured">★ Yes</span>
+                <span class="muted" *ngIf="!p.featured">No</span>
+              </td>
+              <td class="actions-cell">
+                <button class="icon-btn edit-btn" (click)="openEditForm(p)" title="Edit">
+                  <ion-icon name="create-outline"></ion-icon>
+                </button>
+                <button class="icon-btn delete-btn" (click)="confirmDelete(p)" title="Delete">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="filteredProducts.length === 0">
+              <td colspan="7" class="empty-row">No products found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ─── SALES ─────────────────────────────────────────── -->
+    <div *ngIf="!loading && activeTab === 'sales'" class="tab-content">
+      <h2 class="tab-title">Sales &amp; Cart Data</h2>
+
+      <div *ngIf="salesLoading" class="center-spinner"><ion-spinner name="crescent"></ion-spinner></div>
+
+      <div class="stat-grid mini" *ngIf="!salesLoading && stats">
+        <div class="stat-card accent-teal">
+          <div class="stat-body">
+            <div class="stat-value">{{ stats.sales.totalItems }}</div>
+            <div class="stat-label">Items in Carts</div>
+          </div>
+        </div>
+        <div class="stat-card accent-orange">
+          <div class="stat-body">
+            <div class="stat-value">{{ formatPrice(stats.sales.totalRevenue) }}</div>
+            <div class="stat-label">Potential Revenue</div>
+          </div>
+        </div>
+        <div class="stat-card accent-green">
+          <div class="stat-body">
+            <div class="stat-value">{{ formatPrice(stats.sales.averageOrderValue) }}</div>
+            <div class="stat-label">Avg. Item Value</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" *ngIf="!salesLoading && sales.length > 0">
+        <div class="panel-header">
+          <ion-icon name="trending-up-outline"></ion-icon>
+          <h3>All Cart Items</h3>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Line Total</th>
+              <th>Size</th>
+              <th>Color</th>
+              <th>Added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of sales">
+              <td class="product-name">{{ s.product?.name ?? '—' }}</td>
+              <td>{{ formatPrice(s.product?.price ?? 0) }}</td>
+              <td>{{ s.quantity }}</td>
+              <td class="revenue">{{ formatPrice((s.product?.price ?? 0) * s.quantity) }}</td>
+              <td>{{ s.selected_size || '—' }}</td>
+              <td>{{ s.selected_color || '—' }}</td>
+              <td class="muted">{{ formatDate(s.created_at) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="empty-state" *ngIf="!salesLoading && sales.length === 0">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        <p>No sales data yet</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ─── PRODUCT FORM MODAL ────────────────────────────────── -->
+<div *ngIf="showProductForm" class="modal-backdrop" (click)="closeForm()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h3>
+      <button class="close-x" (click)="closeForm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="fg">
+          <label>Name *</label>
+          <input [(ngModel)]="productForm.name" placeholder="Product name">
+        </div>
+        <div class="fg">
+          <label>Price (₱) *</label>
+          <input type="number" [(ngModel)]="productForm.price" placeholder="0.00" min="0">
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Category *</label>
+        <select [(ngModel)]="productForm.category_id">
+          <option value="">Select category...</option>
+          <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+        </select>
+      </div>
+
+      <div class="fg">
+        <label>Description</label>
+        <textarea [(ngModel)]="productForm.description" rows="3" placeholder="Product description"></textarea>
+      </div>
+
+      <div class="fg">
+        <label>Image URL or Path</label>
+        <input [(ngModel)]="productForm.image" placeholder="assets/... or https://...">
+      </div>
+
+      <div class="form-row">
+        <div class="fg">
+          <label>Sizes (comma-separated)</label>
+          <input [(ngModel)]="productForm.sizesStr" placeholder="XS, S, M, L, XL">
+        </div>
+        <div class="fg">
+          <label>Colors (comma-separated)</label>
+          <input [(ngModel)]="productForm.colorsStr" placeholder="Red, Blue, White">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="productForm.in_stock"> In Stock
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="productForm.featured"> Featured
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeForm()">Cancel</button>
+      <button class="btn-save" (click)="saveProduct()">{{ isEditMode ? 'Update' : 'Create' }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+:host {
+  --ion-background-color: #fff;
+  background: #fff;
+  font-family: 'Jost', sans-serif;
+  --ion-font-family: 'Jost', sans-serif;
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.contact-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 40px 0;
+  color: #222;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: red;
+  }
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 30px;
+}
+
+.info-card, .form-card {
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin: 0;
+  height: 100%;
+}
+
+ion-card-title {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #222;
+}
+
+.info-desc {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 25px;
+
+  ion-icon {
+    font-size: 1.5rem;
+    color: #ff6b6b;
+    padding-top: 3px;
+  }
+
+  .item-text {
+    strong {
+      display: block;
+      font-size: 1rem;
+      color: #222;
+      margin-bottom: 4px;
+    }
+    p {
+      margin: 0;
+      color: #666;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+
+  .social-btn {
+    --color: #ff6b6b;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 8px;
+  }
+}
+
+ion-input, ion-textarea {
+  --padding-start: 12px;
+  --border-radius: 8px;
+  --background: #f9f9f9;
+  font-family: 'Jost', sans-serif;
+}
+
+.submit-btn {
+  --background: #ff6b6b;
+  --background-hover: #fa5252;
+  --border-radius: 10px;
+  font-weight: 600;
+  height: 50px;
+  margin-top: 10px;
+}
+
+.main-footer {
+  width: 100%;
+  background: #38E9C0;
+  padding: 30px 0;
+  margin-top: 50px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.footer-link {
+  color: #222;
+  text-decoration: none;
+  margin-bottom: 5px;
+  font-size: 1rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --ion-background-color: #121212;
+    background: #121212;
+  }
+
+  .page-title {
+    color: #fff;
+  }
+
+  .info-card, .form-card {
+    background: #1e1e1e !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  ion-card-title, .item-text strong {
+    color: #fff;
+  }
+
+  .info-desc, .item-text p, .form-group label {
+    color: #bbb;
+  }
+
+  ion-input, ion-textarea {
+    --background: #2a2a2a;
+    --color: #fff;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+}

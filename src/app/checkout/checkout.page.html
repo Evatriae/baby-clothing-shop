@@ -1,0 +1,342 @@
+<app-toolbar
+  [showAccordion]="showAccordion"
+  currentPage="checkout"
+  (toggleAccordion)="onToggleAccordion()"
+  (profileClick)="onProfileClick()">
+</app-toolbar>
+
+<ion-content>
+  <div class="page-wrapper">
+    <div class="main-content ion-padding">
+
+      <!-- Order Success Screen -->
+      <div *ngIf="orderPlaced" class="success-screen">
+        <div class="success-icon-wrap">
+          <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
+        </div>
+        <h1 class="success-title">Order Placed!</h1>
+        <p class="success-subtitle">Thank you for your purchase. We'll be in touch soon with your shipping details.</p>
+        <ion-button expand="block" class="success-btn" (click)="continueShopping()">
+          Continue Shopping
+        </ion-button>
+      </div>
+
+      <!-- Checkout Form -->
+      <div *ngIf="!orderPlaced" class="checkout-container">
+
+        <!-- Back Button -->
+        <button class="back-btn" (click)="goBackToCart()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          Back to Cart
+        </button>
+
+        <h1 class="page-title">Checkout</h1>
+
+        <div class="checkout-layout">
+          <!-- Left: Form -->
+          <div class="form-column">
+
+            <!-- Personal Details -->
+            <ion-card class="section-card">
+              <ion-card-header>
+                <div class="section-header">
+                  <ion-icon name="person-outline" class="section-icon"></ion-icon>
+                  <ion-card-title>Personal Details</ion-card-title>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="field-label">First Name <span class="required">*</span></label>
+                    <ion-input
+                      [(ngModel)]="firstName"
+                      placeholder="e.g. Maria"
+                      class="styled-input"
+                      fill="outline">
+                    </ion-input>
+                  </div>
+                  <div class="form-group">
+                    <label class="field-label">Last Name <span class="required">*</span></label>
+                    <ion-input
+                      [(ngModel)]="lastName"
+                      placeholder="e.g. Santos"
+                      class="styled-input"
+                      fill="outline">
+                    </ion-input>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="field-label">Email Address <span class="required">*</span></label>
+                  <ion-input
+                    [(ngModel)]="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    class="styled-input"
+                    fill="outline">
+                  </ion-input>
+                </div>
+
+                <div class="form-group">
+                  <label class="field-label">Phone Number</label>
+                  <ion-input
+                    [(ngModel)]="phone"
+                    type="tel"
+                    placeholder="+63 900 000 0000"
+                    class="styled-input"
+                    fill="outline">
+                  </ion-input>
+                </div>
+              </ion-card-content>
+            </ion-card>
+
+            <!-- Shipping Address -->
+            <ion-card class="section-card">
+              <ion-card-header>
+                <div class="section-header">
+                  <ion-icon name="location-outline" class="section-icon"></ion-icon>
+                  <ion-card-title>Shipping Address</ion-card-title>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="form-group">
+                  <label class="field-label">Country</label>
+                  <ion-select
+                    [(ngModel)]="country"
+                    class="styled-select"
+                    fill="outline">
+                    <ion-select-option *ngFor="let c of countries" [value]="c">{{ c }}</ion-select-option>
+                  </ion-select>
+                </div>
+
+                <div class="form-group">
+                  <label class="field-label">Street Address <span class="required">*</span></label>
+                  <ion-input
+                    [(ngModel)]="address"
+                    placeholder="e.g. 123 Sampaguita St., Barangay 5"
+                    class="styled-input"
+                    fill="outline">
+                  </ion-input>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="field-label">City / Municipality <span class="required">*</span></label>
+                    <ion-input
+                      [(ngModel)]="city"
+                      placeholder="e.g. Quezon City"
+                      class="styled-input"
+                      fill="outline">
+                    </ion-input>
+                  </div>
+                  <div class="form-group">
+                    <label class="field-label">Province / Region</label>
+                    <ion-select
+                      *ngIf="country === 'Philippines'"
+                      [(ngModel)]="province"
+                      placeholder="Select province"
+                      class="styled-select"
+                      fill="outline">
+                      <ion-select-option *ngFor="let p of philippineProvinces" [value]="p">{{ p }}</ion-select-option>
+                    </ion-select>
+                    <ion-input
+                      *ngIf="country !== 'Philippines'"
+                      [(ngModel)]="province"
+                      placeholder="State / Province"
+                      class="styled-input"
+                      fill="outline">
+                    </ion-input>
+                  </div>
+                </div>
+
+                <div class="form-group half">
+                  <label class="field-label">Postal Code <span class="required">*</span></label>
+                  <ion-input
+                    [(ngModel)]="postalCode"
+                    placeholder="e.g. 1100"
+                    class="styled-input"
+                    fill="outline">
+                  </ion-input>
+                </div>
+              </ion-card-content>
+            </ion-card>
+
+            <!-- Payment -->
+            <ion-card class="section-card">
+              <ion-card-header>
+                <div class="section-header">
+                  <ion-icon name="card-outline" class="section-icon"></ion-icon>
+                  <ion-card-title>Payment Method</ion-card-title>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="payment-methods">
+                  <div 
+                    class="payment-method-item" 
+                    [class.active]="paymentMethod === 'card'"
+                    (click)="paymentMethod = 'card'">
+                    <ion-icon name="card-outline"></ion-icon>
+                    <span>Credit / Debit Card</span>
+                  </div>
+                  <div 
+                    class="payment-method-item" 
+                    [class.active]="paymentMethod === 'gcash'"
+                    (click)="paymentMethod = 'gcash'">
+                    <img src="assets/gcash-logo.png" alt="GCash" class="method-logo" onerror="this.style.display='none'">
+                    <span>GCash</span>
+                  </div>
+                  <div 
+                    class="payment-method-item" 
+                    [class.active]="paymentMethod === 'cod'"
+                    (click)="paymentMethod = 'cod'">
+                    <ion-icon name="cash-outline"></ion-icon>
+                    <span>Cash on Delivery</span>
+                  </div>
+                </div>
+
+                <!-- Card Details Form -->
+                <div *ngIf="paymentMethod === 'card'" class="card-details-form animated fadeIn">
+                  <div class="form-group">
+                    <label class="field-label">Cardholder Name <span class="required">*</span></label>
+                    <ion-input
+                      [(ngModel)]="cardHolder"
+                      placeholder="e.g. Maria Santos"
+                      class="styled-input"
+                      fill="outline">
+                    </ion-input>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="field-label">Card Number <span class="required">*</span></label>
+                    <ion-input
+                      [(ngModel)]="cardNumber"
+                      placeholder="0000 0000 0000 0000"
+                      class="styled-input"
+                      fill="outline"
+                      maxlength="19">
+                    </ion-input>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="field-label">Expiry Date <span class="required">*</span></label>
+                      <ion-input
+                        [(ngModel)]="expiryDate"
+                        placeholder="MM/YY"
+                        class="styled-input"
+                        fill="outline"
+                        maxlength="5">
+                      </ion-input>
+                    </div>
+                    <div class="form-group">
+                      <label class="field-label">CVV <span class="required">*</span></label>
+                      <ion-input
+                        [(ngModel)]="cvv"
+                        type="password"
+                        placeholder="123"
+                        class="styled-input"
+                        fill="outline"
+                        maxlength="4">
+                      </ion-input>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="paymentMethod === 'gcash'" class="method-note animated fadeIn">
+                  <p>You will be redirected to the GCash portal to complete your payment after clicking "Place Order".</p>
+                </div>
+
+                <div *ngIf="paymentMethod === 'cod'" class="method-note animated fadeIn">
+                  <p>Please prepare the exact amount for your order upon delivery.</p>
+                </div>
+              </ion-card-content>
+            </ion-card>
+
+          </div>
+
+          <!-- Right: Order Summary -->
+          <div class="summary-column">
+            <ion-card class="summary-card sticky-card">
+              <ion-card-header>
+                <div class="section-header">
+                  <ion-icon name="bag-check-outline" class="section-icon"></ion-icon>
+                  <ion-card-title>Order Summary</ion-card-title>
+                </div>
+              </ion-card-header>
+              <ion-card-content>
+                <!-- Items -->
+                <div class="order-items">
+                  <div *ngFor="let item of cart?.items" class="order-item">
+                    <div class="item-info">
+                      <img [src]="item.product.image" [alt]="item.product.name"
+                           class="item-thumb"
+                           onerror="this.src='assets/placeholder.png'">
+                      <div class="item-details">
+                        <span class="item-name">{{ item.product.name }}</span>
+                        <span class="item-meta" *ngIf="item.selected_size">Size: {{ item.selected_size }}</span>
+                        <span class="item-meta" *ngIf="item.selected_color">Color: {{ item.selected_color }}</span>
+                        <span class="item-qty">Qty: {{ item.quantity }}</span>
+                      </div>
+                    </div>
+                    <span class="item-total">{{ formatPrice(item.product.price * item.quantity) }}</span>
+                  </div>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <!-- Totals -->
+                <div class="summary-rows">
+                  <div class="summary-row">
+                    <span>Subtotal ({{ cartSummary.total_items }} items)</span>
+                    <span>{{ formatPrice(cartSummary.subtotal) }}</span>
+                  </div>
+                  <div class="summary-row" *ngIf="cartSummary.shipping">
+                    <span>Shipping</span>
+                    <span>{{ formatPrice(cartSummary.shipping) }}</span>
+                  </div>
+                  <div class="summary-row" *ngIf="cartSummary.tax">
+                    <span>Tax (8%)</span>
+                    <span>{{ formatPrice(cartSummary.tax) }}</span>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-row total-row">
+                    <strong>Total</strong>
+                    <strong class="total-amount">{{ formatPrice(cartSummary.total_amount) }}</strong>
+                  </div>
+                </div>
+
+                <!-- Place Order Button -->
+                <ion-button
+                  expand="block"
+                  class="place-order-btn"
+                  [disabled]="!formIsValid || isSubmitting"
+                  (click)="placeOrder()">
+                  <ion-spinner *ngIf="isSubmitting" name="crescent" slot="start"></ion-spinner>
+                  <span *ngIf="!isSubmitting">Place Order</span>
+                  <span *ngIf="isSubmitting">Placing Order...</span>
+                </ion-button>
+
+                <p class="secure-note">
+                  <ion-icon name="card-outline"></ion-icon>
+                  This is a demo order. No payment will be charged.
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="main-footer">
+      <div class="footer-content">
+        <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="footer-icon" />
+        <div class="footer-info">
+          <div class="footer-label">Information</div>
+          <a routerLink="/about" class="footer-link">About Us</a>
+          <a routerLink="/contact" class="footer-link">Contact Us</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</ion-content>

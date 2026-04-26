@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+:host {
+  --ion-background-color: #fff;
+  background: #fff;
+  font-family: 'Jost', sans-serif;
+  --ion-font-family: 'Jost', sans-serif;
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --background: #fff;
+}
+
+.profile-container {
+  padding: 30px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  
+  ion-spinner {
+    margin-bottom: 20px;
+    --color: #38E9C0;
+  }
+  
+  p {
+    color: #666;
+    font-size: 1rem;
+    font-family: 'Jost', sans-serif;
+  }
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 25px;
+  background: linear-gradient(135deg, #38E9C0 0%, #2DD4AA 100%);
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(56, 233, 192, 0.3);
+}
+
+.profile-avatar {
+  font-size: 70px;
+  color: white;
+  margin-right: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: white;
+  margin: 0 0 5px 0;
+  font-family: 'Jost', sans-serif;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.profile-email {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  margin: 0;
+  font-family: 'Jost', sans-serif;
+}
+
+.alert {
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+  font-family: 'Jost', sans-serif;
+  
+  &.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid #38E9C0;
+  }
+  
+  &.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+  }
+}
+
+.profile-form {
+  margin-bottom: 30px;
+}
+
+.profile-item {
+  --background: #fff;
+  --border-color: #ddd;
+  --border-width: 1px;
+  --border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  
+  ion-label {
+    font-weight: 500;
+    color: #38E9C0;
+    margin-bottom: 8px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+  }
+  
+  ion-input {
+    --color: #333;
+    --padding-start: 15px;
+    --padding-end: 15px;
+    font-size: 1rem;
+    font-family: 'Jost', sans-serif;
+    
+    &[readonly] {
+      --color: #666;
+      opacity: 0.8;
+      background-color: #f8f9fa;
+    }
+  }
+}
+
+.profile-actions {
+  margin-top: 40px;
+}
+
+.edit-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.action-button {
+  margin-bottom: 15px;
+  --border-radius: 25px;
+  font-weight: 600;
+  height: 50px;
+  font-family: 'Jost', sans-serif;
+  text-transform: none;
+  font-size: 1rem;
+}
+
+.edit-button {
+  --background: #38E9C0;
+  --color: white;
+  box-shadow: 0 4px 15px rgba(56, 233, 192, 0.3);
+}
+
+.save-button {
+  --background: #28a745;
+  --color: white;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.cancel-button {
+  --color: #6c757d;
+  --border-color: #6c757d;
+}
+
+.sign-out-button {
+  margin-top: 25px;
+  --color: #dc3545;
+  --border-color: #dc3545;
+  
+  &:hover {
+    --background: #dc3545;
+    --color: white;
+  }
+}
+
+.not-logged-in {
+  text-align: center;
+  padding: 60px 20px;
+  
+  h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+  }
+}
+
+.login-redirect-button {
+  --background: #38E9C0;
+  --color: white;
+  --border-radius: 25px;
+  font-weight: 600;
+  height: 50px;
+  font-family: 'Jost', sans-serif;
+  text-transform: none;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(56, 233, 192, 0.3);
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 20px 15px;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    
+    .profile-avatar {
+      margin-right: 0;
+      margin-bottom: 15px;
+      font-size: 60px;
+    }
+  }
+  
+  .profile-name {
+    font-size: 1.4rem;
+  }
+  
+  .profile-email {
+    font-size: 0.9rem;
+  }
+  
+  .action-button {
+    height: 45px;
+    font-size: 0.9rem;
+  }
+}
