@@ -353,6 +353,8 @@ $accent-yellow: #fbbf24;
 
 .modal-body {
   padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
 
   .fg {
     margin-bottom: 16px;
@@ -407,9 +409,46 @@ $accent-yellow: #fbbf24;
 }
 
 // ─── Responsive ────────────────────────────────────────────
-@media (max-width: 768px) {
-  .sidebar { width: 60px; .sidebar-brand > div, .nav-item span, .logout-btn span { display: none; } }
+@media (max-width: 992px) {
   .stat-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { 
+    width: 68px; 
+    .sidebar-brand { padding: 0 0 20px; justify-content: center; .sidebar-brand-text { display: none; } }
+    .nav-item { padding: 12px; justify-content: center; span { display: none; } ion-icon { margin: 0; font-size: 1.4rem; } }
+    .logout-btn { padding: 12px; justify-content: center; span { display: none; } ion-icon { margin: 0; font-size: 1.4rem; } }
+  }
+
+  .main-area { padding: 20px 16px; }
+  
+  .tab-header { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 12px; 
+    .add-btn { width: 100%; justify-content: center; }
+  }
+
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  
+  .panel {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .data-table {
+    min-width: 600px; // Force scroll on small screens
+  }
+
+  .modal-card {
+    width: 95%;
+    margin: 10px;
+  }
+
   .form-row { grid-template-columns: 1fr; }
-  .main-area { padding: 16px; }
+}
+
+@media (max-width: 480px) {
+  .stat-grid { grid-template-columns: 1fr; }
 }
