@@ -1,0 +1,415 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
+
+$bg: #0f1117;
+$surface: #1a1f2e;
+$surface2: #242938;
+$border: rgba(255,255,255,0.07);
+$text: #e2e8f0;
+$muted: #6b7280;
+$accent-teal: #38E9C0;
+$accent-red: #ff6b6b;
+$accent-green: #4ade80;
+$accent-purple: #a78bfa;
+$accent-orange: #fb923c;
+$accent-yellow: #fbbf24;
+
+:host { font-family: 'Jost', sans-serif; display: block; height: 100vh; }
+
+// ─── Layout ────────────────────────────────────────────────
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  background: $bg;
+  color: $text;
+  overflow: hidden;
+}
+
+// ─── Sidebar ───────────────────────────────────────────────
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: $surface;
+  border-right: 1px solid $border;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px 24px;
+  border-bottom: 1px solid $border;
+  margin-bottom: 12px;
+
+  .sidebar-logo { font-size: 2rem; }
+  .sidebar-title { font-weight: 700; font-size: 1rem; color: #fff; }
+  .sidebar-sub { font-size: 0.72rem; color: $muted; }
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 0 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  background: transparent;
+  color: $muted;
+  font-size: 0.9rem;
+  font-family: 'Jost', sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.18s;
+  margin-bottom: 4px;
+
+  ion-icon { font-size: 1.2rem; }
+
+  &:hover { background: rgba(255,255,255,0.05); color: $text; }
+  &.active { background: rgba(56,233,192,0.12); color: $accent-teal; }
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: calc(100% - 24px);
+  margin: 0 12px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255,107,107,0.3);
+  background: transparent;
+  color: $accent-red;
+  font-size: 0.9rem;
+  font-family: 'Jost', sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.18s;
+
+  ion-icon { font-size: 1.2rem; }
+  &:hover { background: rgba(255,107,107,0.1); }
+}
+
+// ─── Main area ─────────────────────────────────────────────
+.main-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px;
+  background: $bg;
+}
+
+.tab-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 24px;
+}
+
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  .tab-title { margin: 0; }
+}
+
+.add-btn {
+  background: $accent-teal;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-family: 'Jost', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  ion-icon { font-size: 1.2rem; }
+  
+  &:hover {
+    background: darken($accent-teal, 8%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(56, 233, 192, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ─── Stat cards ────────────────────────────────────────────
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+
+  &.mini { grid-template-columns: repeat(3, 1fr); }
+}
+
+.stat-card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-left: 4px solid transparent;
+
+  .stat-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    ion-icon { font-size: 1.4rem; }
+  }
+
+  .stat-value { font-size: 1.5rem; font-weight: 700; color: #fff; }
+  .stat-label { font-size: 0.8rem; color: $muted; margin-top: 2px; }
+
+  &.accent-teal  { border-left-color: $accent-teal;   .stat-icon { background: rgba(56,233,192,0.12); ion-icon { color: $accent-teal; } } }
+  &.accent-green { border-left-color: $accent-green;  .stat-icon { background: rgba(74,222,128,0.12); ion-icon { color: $accent-green; } } }
+  &.accent-purple{ border-left-color: $accent-purple; .stat-icon { background: rgba(167,139,250,0.12); ion-icon { color: $accent-purple; } } }
+  &.accent-orange{ border-left-color: $accent-orange; .stat-icon { background: rgba(251,146,60,0.12); ion-icon { color: $accent-orange; } } }
+}
+
+// ─── Panel / table ─────────────────────────────────────────
+.panel {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid $border;
+  ion-icon { font-size: 1.2rem; color: $accent-teal; }
+  h3 { margin: 0; font-size: 1rem; font-weight: 600; color: #fff; }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+
+  th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: $muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid $border;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid $border;
+    color: $text;
+    vertical-align: middle;
+
+    &:last-child { border-bottom: none; }
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.025); }
+}
+
+.muted { color: $muted; }
+.rank { color: $accent-teal; font-weight: 700; font-size: 1rem; }
+.revenue { color: $accent-green; font-weight: 600; }
+.product-name { font-weight: 500; color: #fff; }
+.empty-row { text-align: center; color: $muted; padding: 32px !important; }
+
+.thumb {
+  width: 44px; height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: $surface2;
+}
+
+// ─── Badges ────────────────────────────────────────────────
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  &.badge-green  { background: rgba(74,222,128,0.15); color: $accent-green; }
+  &.badge-red    { background: rgba(255,107,107,0.15); color: $accent-red; }
+  &.badge-yellow { background: rgba(251,191,36,0.15); color: $accent-yellow; }
+}
+
+// ─── Icon action buttons ───────────────────────────────────
+.actions-cell { display: flex; gap: 8px; align-items: center; }
+
+.icon-btn {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid $border;
+  background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s;
+  ion-icon { font-size: 1rem; }
+
+  &.edit-btn {
+    color: $accent-teal;
+    &:hover { background: rgba(56,233,192,0.1); border-color: $accent-teal; }
+  }
+  &.delete-btn {
+    color: $accent-red;
+    &:hover { background: rgba(255,107,107,0.1); border-color: $accent-red; }
+  }
+}
+
+// ─── Search bar ────────────────────────────────────────────
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 10px;
+  padding: 0 14px;
+  margin-bottom: 16px;
+
+  ion-icon { color: $muted; font-size: 1.1rem; }
+
+  input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $text;
+    font-size: 0.9rem;
+    font-family: 'Jost', sans-serif;
+    padding: 12px 0;
+    &::placeholder { color: $muted; }
+  }
+}
+
+// ─── Spinner / empty ───────────────────────────────────────
+.center-spinner {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 60px;
+  gap: 16px;
+  color: $muted;
+  ion-spinner { --color: #{$accent-teal}; }
+}
+
+.empty-state {
+  text-align: center; padding: 60px;
+  ion-icon { font-size: 3rem; color: $muted; }
+  p { color: $muted; margin-top: 12px; }
+}
+
+// ─── Product form modal ────────────────────────────────────
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 16px;
+  width: 100%; max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+}
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid $border;
+  h3 { margin: 0; font-size: 1.1rem; font-weight: 700; color: #fff; }
+  .close-x {
+    background: transparent; border: none;
+    color: $muted; font-size: 1.2rem; cursor: pointer;
+    &:hover { color: $text; }
+  }
+}
+
+.modal-body {
+  padding: 24px;
+
+  .fg {
+    margin-bottom: 16px;
+    label {
+      display: block; font-size: 0.8rem; font-weight: 600;
+      color: $muted; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px;
+    }
+    input, select, textarea {
+      width: 100%; box-sizing: border-box;
+      background: $bg; border: 1px solid $border;
+      border-radius: 8px; color: $text;
+      font-size: 0.9rem; font-family: 'Jost', sans-serif;
+      padding: 10px 12px; outline: none;
+      transition: border-color 0.2s;
+      &:focus { border-color: $accent-teal; }
+    }
+    textarea { resize: vertical; }
+    select option { background: $surface; }
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.checkbox-label {
+  display: flex; align-items: center; gap: 8px;
+  color: $text; font-size: 0.9rem; cursor: pointer;
+  input[type=checkbox] { accent-color: $accent-teal; width: 16px; height: 16px; }
+}
+
+.modal-footer {
+  display: flex; justify-content: flex-end; gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid $border;
+
+  button {
+    padding: 10px 24px; border-radius: 8px; font-size: 0.9rem;
+    font-family: 'Jost', sans-serif; font-weight: 600;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .btn-cancel {
+    background: transparent; border: 1px solid $border; color: $muted;
+    &:hover { border-color: $text; color: $text; }
+  }
+  .btn-save {
+    background: $accent-teal; border: none; color: #111;
+    &:hover { background: darken(#38E9C0, 8%); }
+  }
+}
+
+// ─── Responsive ────────────────────────────────────────────
+@media (max-width: 768px) {
+  .sidebar { width: 60px; .sidebar-brand > div, .nav-item span, .logout-btn span { display: none; } }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .main-area { padding: 16px; }
+}

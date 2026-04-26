@@ -213,6 +213,34 @@ ion-toolbar ion-button {
   border-radius: 8px;
   box-shadow: none;
   background: #f8f8f8;
+  position: relative;
+}
+
+.admin-portal-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  float: right;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  text-decoration: none;
+  background: #ececec;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 4px 10px;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+
+  ion-icon {
+    font-size: 0.85rem;
+  }
+
+  &:hover {
+    background: #333;
+    color: #fff;
+    border-color: #333;
+  }
 }
 
 .login-title {

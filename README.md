@@ -56,5 +56,9 @@ We have extensive internal documentation available in the root directory:
 - **Database & Storage**: [SUPABASE_STORAGE_SETUP.md](SUPABASE_STORAGE_SETUP.md), [STORAGE_SETUP.md](STORAGE_SETUP.md)
 - **Development Guides**: [FILE_MAPPING_GUIDE.md](FILE_MAPPING_GUIDE.md), [IMAGE_UPLOAD_GUIDE.md](IMAGE_UPLOAD_GUIDE.md)
 
+Admin Credentials:
+Email: admin@babyshop.com
+Password: Admin@12345
+
 ## License
 Private / Proprietary.

@@ -12,7 +12,7 @@ import {
   IonIcon
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { mailOutline } from 'ionicons/icons';
+import { mailOutline, shieldCheckmarkOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { SupabaseAuthService } from '../services/supabase-auth.service';
 import { ToolbarComponent } from '../shared/toolbar/toolbar.component';
@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     private supabaseAuthService: SupabaseAuthService
   ) {
-    addIcons({ mailOutline });
+    addIcons({ mailOutline, shieldCheckmarkOutline });
   }
 
   ngOnInit() {
