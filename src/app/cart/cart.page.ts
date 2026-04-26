@@ -263,8 +263,7 @@ export class CartPage implements OnInit, OnDestroy {
       return;
     }
 
-    // TODO: Navigate to checkout page when implemented
-    this.showToast('Checkout feature coming soon!', 'primary');
+    this.router.navigate(['/checkout']);
   }
 
   getLineTotal(item: CartItem): number {

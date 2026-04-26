@@ -124,7 +124,7 @@ ion-content {
   justify-content: center;
   height: 200px;
   text-align: center;
-  
+
   p {
     margin-top: 16px;
     color: var(--ion-color-medium);
@@ -139,22 +139,22 @@ ion-content {
   text-align: center;
   padding: 40px 20px;
   min-height: 300px;
-  
+
   ion-icon {
     color: var(--ion-color-medium);
     margin-bottom: 20px;
   }
-  
+
   h2 {
     color: var(--ion-color-dark);
     margin-bottom: 10px;
   }
-  
+
   p {
     color: var(--ion-color-medium);
     margin-bottom: 30px;
   }
-  
+
   ion-button {
     max-width: 200px;
   }
@@ -173,19 +173,19 @@ ion-content {
 .cart-item-card {
   margin-bottom: 16px;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
   .item-container {
     display: flex;
     align-items: flex-start;
     gap: 16px;
     position: relative;
-    
+
     .product-image {
       flex-shrink: 0;
       width: 80px;
       height: 80px;
-      
+
       img {
         width: 100%;
         height: 100%;
@@ -193,48 +193,48 @@ ion-content {
         border-radius: 8px;
       }
     }
-    
+
     .product-details {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      
+
       h3 {
         margin: 0;
         font-size: 1.1rem;
         font-weight: 600;
         color: var(--ion-color-dark);
       }
-      
+
       .product-price {
         margin: 0;
         color: var(--ion-color-primary);
         font-weight: 500;
       }
-      
+
       .product-options {
         display: flex;
         gap: 8px;
-        
+
         ion-select {
           min-width: 80px;
           font-size: 0.9rem;
         }
       }
-      
+
       .quantity-controls {
         display: flex;
         align-items: center;
         gap: 12px;
-        
+
         .quantity {
           min-width: 30px;
           text-align: center;
           font-weight: 500;
           font-size: 1rem;
         }
-        
+
         ion-button {
           --padding-start: 8px;
           --padding-end: 8px;
@@ -242,24 +242,24 @@ ion-content {
           height: 36px;
         }
       }
-      
+
       .line-total {
         margin-top: 8px;
         text-align: right;
         font-size: 1.1rem;
-        color: var(--ion-color-dark);
+        color: #000;
       }
     }
-    
+
     .item-actions {
       flex-shrink: 0;
-      
+
       ion-button {
         --padding-start: 8px;
         --padding-end: 8px;
       }
     }
-    
+
     .updating-overlay {
       position: absolute;
       top: 0;
@@ -278,26 +278,26 @@ ion-content {
 .cart-summary {
   margin-top: 20px;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
   .summary-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
-    
+
     &.total {
       margin-top: 16px;
       font-size: 1.2rem;
     }
   }
-  
+
   hr {
     margin: 16px 0;
     border: none;
     border-top: 1px solid var(--ion-color-light);
   }
-  
+
   .shipping-message {
     margin: 16px 0;
     padding: 12px;
@@ -305,7 +305,7 @@ ion-content {
     border-radius: 8px;
     text-align: center;
   }
-  
+
   .cart-actions {
     display: flex;
     flex-direction: column;
@@ -333,32 +333,32 @@ ion-content {
       font-size: 1.5rem;
     }
   }
-  
+
   .cart-item-card .item-container {
     gap: 12px;
-    
+
     .product-image {
       width: 70px;
       height: 70px;
     }
-    
+
     .product-details {
       h3 {
         font-size: 1rem;
       }
-      
+
       .product-options {
         flex-direction: column;
         gap: 4px;
-        
+
         ion-select {
           font-size: 0.85rem;
         }
       }
-      
+
       .quantity-controls {
         gap: 8px;
-        
+
         ion-button {
           width: 32px;
           height: 32px;
@@ -366,7 +366,7 @@ ion-content {
       }
     }
   }
-  
+
   .cart-summary .cart-actions {
     ion-button {
       font-size: 0.9rem;
@@ -381,21 +381,21 @@ ion-content {
       color: var(--ion-color-light);
     }
   }
-  
+
   .cart-item-card .item-container {
     .product-details h3 {
       color: var(--ion-color-light);
     }
-    
+
     .line-total {
       color: var(--ion-color-light);
     }
   }
-  
+
   .cart-summary .summary-row {
     color: var(--ion-color-light);
   }
-  
+
   .updating-overlay {
     background: rgba(0, 0, 0, 0.8) !important;
   }

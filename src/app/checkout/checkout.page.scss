@@ -1,0 +1,622 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ─── Forced Light Mode Overrides ─────────────────────────── */
+:host {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #222222;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-card-color: #222222;
+  --ion-input-color: #222222;
+  --ion-input-placeholder-color: #888888;
+  --ion-border-color: #eeeeee;
+  
+  background: #ffffff;
+  color: #222222;
+  font-family: 'Jost', sans-serif;
+  --ion-font-family: 'Jost', sans-serif;
+}
+
+/* Force specific component backgrounds to be light */
+ion-card {
+  --background: #ffffff;
+  --color: #222222;
+}
+
+ion-input, 
+ion-select {
+  --background: #ffffff;
+  --color: #222222;
+  --placeholder-color: #888888;
+}
+
+/* Ensure footer text stays dark for light mode */
+.footer-label,
+.footer-link {
+  color: #222222 !important;
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --background: #ffffff;
+}
+
+/* ─── Page Layout ─────────────────────────────────────────── */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* ─── Back Button ─────────────────────────────────────────── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.95rem;
+  padding: 0 0 8px 0;
+  margin-bottom: 4px;
+  transition: color 0.2s;
+
+  ion-icon {
+    font-size: 1.1rem;
+  }
+
+  &:hover {
+    color: #222;
+  }
+}
+
+/* ─── Page Title ─────────────────────────────────────────── */
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  color: #222;
+  position: relative;
+  padding-bottom: 10px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: red;
+  }
+}
+
+/* ─── Two-column Layout ───────────────────────────────────── */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ─── Section Cards ───────────────────────────────────────── */
+.section-card {
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  background: #ffffff;
+
+  ion-card-header {
+    padding-bottom: 4px;
+  }
+
+  ion-card-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .section-icon {
+    font-size: 1.4rem;
+    color: #e74c3c;
+  }
+}
+
+/* ─── Form Fields ─────────────────────────────────────────── */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+
+  &.half {
+    max-width: 50%;
+  }
+}
+
+.field-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+  font-family: 'Jost', sans-serif;
+}
+
+/* ─── Payment Methods ─────────────────────────────────────── */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.payment-method-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  ion-icon {
+    font-size: 1.4rem;
+    color: #666;
+  }
+
+  .method-logo {
+    height: 20px;
+    width: auto;
+  }
+
+  span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #444;
+  }
+
+  &:hover {
+    border-color: #38E9C0;
+    background: rgba(56, 233, 192, 0.05);
+  }
+
+  &.active {
+    border-color: #38E9C0;
+    background: rgba(56, 233, 192, 0.1);
+    
+    ion-icon {
+      color: #38E9C0;
+    }
+    
+    span {
+      color: #222;
+      font-weight: 600;
+    }
+  }
+}
+
+.method-note {
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 3px solid #38E9C0;
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+  }
+}
+
+.animated {
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+.styled-input,
+.styled-select {
+  --border-radius: 8px;
+  --padding-start: 12px;
+  font-family: 'Jost', sans-serif;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #222;
+}
+
+/* ─── Order Summary Card ──────────────────────────────────── */
+.summary-card {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  background: #ffffff;
+
+  ion-card-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+  }
+}
+
+.sticky-card {
+  position: sticky;
+  top: 16px;
+}
+
+/* ─── Order Items ─────────────────────────────────────────── */
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  .item-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid #eee;
+  }
+
+  .item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .item-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .item-meta,
+  .item-qty {
+    font-size: 0.78rem;
+    color: #888;
+  }
+
+  .item-total {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #222;
+    flex-shrink: 0;
+  }
+}
+
+/* ─── Summary Totals ──────────────────────────────────────── */
+.summary-divider {
+  height: 1px;
+  background: #eee;
+  margin: 12px 0;
+}
+
+.summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.total-row {
+  font-size: 1.05rem;
+  color: #222;
+  margin-top: 4px;
+
+  .total-amount {
+    color: #e74c3c;
+    font-size: 1.15rem;
+  }
+}
+
+/* ─── Place Order Button ──────────────────────────────────── */
+.place-order-btn {
+  margin-top: 20px;
+  --background: #e74c3c;
+  --background-hover: #c0392b;
+  --border-radius: 10px;
+  font-family: 'Jost', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  height: 50px;
+  color: #ffffff;
+}
+
+.secure-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: #aaa;
+  text-align: center;
+
+  ion-icon {
+    font-size: 0.95rem;
+  }
+}
+
+/* ─── Success Screen ──────────────────────────────────────── */
+.success-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 60vh;
+  background: #ffffff;
+
+  .success-icon-wrap {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #38E9C0, #2bc0a0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 30px rgba(56, 233, 192, 0.35);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  }
+
+  .success-icon {
+    font-size: 3.5rem;
+    color: #fff;
+  }
+
+  .success-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 12px;
+  }
+
+  .success-subtitle {
+    font-size: 1rem;
+    color: #666;
+    max-width: 320px;
+    line-height: 1.6;
+    margin-bottom: 36px;
+  }
+
+  .success-btn {
+    --background: #38E9C0;
+    --background-hover: #2bc0a0;
+    --color: #222;
+    --border-radius: 10px;
+    font-weight: 600;
+    width: 220px;
+    height: 50px;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ─── Footer ──────────────────────────────────────────────── */
+.main-footer {
+  width: 100%;
+  background: #38E9C0;
+  padding: 24px 0 16px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 12px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #222 !important;
+}
+
+.footer-link {
+  color: #222 !important;
+  text-decoration: none;
+  margin-bottom: 4px;
+  font-size: 1rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ─── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-column {
+    order: -1; // Show summary first on mobile
+  }
+
+  .sticky-card {
+    position: static;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.half {
+    max-width: 100%;
+  }
+}
+
+/* ─── Dark Mode Support ───────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --ion-background-color: #121212;
+    background: #121212;
+  }
+
+  ion-content {
+    --background: #121212;
+  }
+
+  .page-title {
+    color: #fff;
+  }
+
+  .back-btn {
+    color: #aaa;
+    &:hover { color: #fff; }
+  }
+
+  .section-card, .summary-card {
+    background: #1e1e1e !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+
+    ion-card-title {
+      color: #fff;
+    }
+  }
+
+  .field-label {
+    color: #bbb;
+  }
+
+  .styled-input, .styled-select {
+    --background: #2a2a2a;
+    --color: #fff;
+    --placeholder-color: #666;
+    border-color: #444;
+  }
+
+  .payment-methods {
+    .payment-method-item {
+      border-color: #333;
+      span { color: #ccc; }
+      &:hover { background: rgba(255, 255, 255, 0.05); }
+      &.active {
+        background: rgba(56, 233, 192, 0.15);
+        border-color: #38E9C0;
+        span { color: #fff; }
+      }
+    }
+  }
+
+  .method-note {
+    background: #252525;
+    p { color: #aaa; }
+  }
+
+  .order-item {
+    .item-name { color: #fff; }
+    .item-meta, .item-qty { color: #888; }
+    .item-total { color: #fff; }
+    .item-thumb { border-color: #333; }
+  }
+
+  .summary-row {
+    color: #bbb;
+    &.total-row {
+      color: #fff;
+      .total-amount { color: #38E9C0; }
+    }
+  }
+
+  .summary-divider {
+    background: #333;
+  }
+
+  .success-screen {
+    background: #121212 !important;
+    .success-title { color: #fff; }
+    .success-subtitle { color: #aaa; }
+  }
+}

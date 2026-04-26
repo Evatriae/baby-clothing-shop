@@ -1,0 +1,114 @@
+<app-toolbar 
+  [showAccordion]="showAccordion"
+  currentPage="contact"
+  (toggleAccordion)="onToggleAccordion()" 
+  (profileClick)="onProfileClick()">
+</app-toolbar>
+
+<ion-content>
+  <div class="page-wrapper">
+    <div class="main-content ion-padding">
+      <div class="contact-container">
+        <h1 class="page-title">Contact Us</h1>
+        
+        <div class="contact-grid">
+          <!-- Contact Info Section -->
+          <div class="contact-info">
+            <ion-card class="info-card">
+              <ion-card-header>
+                <ion-card-title>Get in Touch</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="info-desc">Have a question or feedback? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                
+                <div class="info-item">
+                  <ion-icon name="location-outline"></ion-icon>
+                  <div class="item-text">
+                    <strong>Address</strong>
+                    <p>123 Baby Street, Manila, Philippines</p>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <ion-icon name="call-outline"></ion-icon>
+                  <div class="item-text">
+                    <strong>Phone</strong>
+                    <p>+63 912 345 6789</p>
+                  </div>
+                </div>
+
+                <div class="info-item">
+                  <ion-icon name="mail-outline"></ion-icon>
+                  <div class="item-text">
+                    <strong>Email</strong>
+                    <p>support@babyshop.com</p>
+                  </div>
+                </div>
+
+                <div class="social-links">
+                  <ion-button fill="clear" class="social-btn">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="clear" class="social-btn">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="clear" class="social-btn">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                  </ion-button>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </div>
+
+          <!-- Contact Form Section -->
+          <div class="contact-form">
+            <ion-card class="form-card">
+              <ion-card-header>
+                <ion-card-title>Send a Message</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <form (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <label>Full Name</label>
+                    <ion-input [(ngModel)]="contactForm.name" name="name" placeholder="Enter your name" fill="outline"></ion-input>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Email Address</label>
+                    <ion-input [(ngModel)]="contactForm.email" name="email" type="email" placeholder="Enter your email" fill="outline"></ion-input>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Subject</label>
+                    <ion-input [(ngModel)]="contactForm.subject" name="subject" placeholder="What is this about?" fill="outline"></ion-input>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Message</label>
+                    <ion-textarea [(ngModel)]="contactForm.message" name="message" rows="5" placeholder="Write your message here..." fill="outline"></ion-textarea>
+                  </div>
+
+                  <ion-button expand="block" type="submit" [disabled]="isSubmitting" class="submit-btn">
+                    <ion-icon name="send-outline" slot="start" *ngIf="!isSubmitting"></ion-icon>
+                    {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+                  </ion-button>
+                </form>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="main-footer">
+      <div class="footer-content">
+        <img src="assets/baby-clothes-icon-isolated-on-white-background-vector.png" alt="main icon" class="footer-icon" />
+        <div class="footer-info">
+          <div class="footer-label">Information</div>
+          <a routerLink="/about" class="footer-link">About Us</a>
+          <a routerLink="/contact" class="footer-link">Contact Us</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</ion-content>
