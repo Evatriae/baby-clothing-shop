@@ -1,25 +1,25 @@
 # Data Flow Diagram (DFD) - Baby Clothing Shop App
 
 ## System Overview
-The Baby Clothing Shop is an Ionic/Angular mobile application with Supabase backend that allows users to browse and purchase baby clothing items.
+The Baby Clothing Shop is an Ionic/Angular mobile application with Supabase backend that allows users to browse and purchase baby clothing items. It includes an admin dashboard for inventory and sales management.
 
 ## Context Diagram (Level 0 DFD)
 
-```
-                    ┌─────────────────┐
-                    │                 │
-        User Data   │     CUSTOMER    │    Product Orders
-     ◄──────────────┤                 ├──────────────►
-                    │                 │
-                    └─────────────────┘
-                             │
-                             │ User Interactions
-                             ▼
-    ┌─────────────────────────────────────────────────────────┐
-    │                                                         │
-    │              Baby Clothing Shop System                  │
-    │                                                         │
-    └─────────────────────────────────────────────────────────┘
+```text
+                    ┌─────────────────┐             ┌─────────────────┐
+                    │                 │             │                 │
+        User Data   │     CUSTOMER    │             │      ADMIN      │
+     ◄──────────────┤                 ├────────────►│                 │◄──────────────
+                    │                 │             │                 │  Admin Operations
+                    └─────────────────┘             └─────────────────┘
+                             │                                │
+                             │ User Interactions              │ Admin Interactions
+                             ▼                                ▼
+    ┌──────────────────────────────────────────────────────────────────────────┐
+    │                                                                          │
+    │                        Baby Clothing Shop System                         │
+    │                                                                          │
+    └──────────────────────────────────────────────────────────────────────────┘
                              │
                              │ Database Operations
                              ▼
@@ -33,7 +33,7 @@ The Baby Clothing Shop is an Ionic/Angular mobile application with Supabase back
 
 ## Level 1 DFD - Main System Processes
 
-```
+```text
 ┌─────────────┐          Registration/Login Data          ┌─────────────────┐
 │             │ ─────────────────────────────────────────► │                 │
 │   CUSTOMER  │                                           │  1. USER AUTH   │
@@ -68,16 +68,36 @@ The Baby Clothing Shop is an Ionic/Angular mobile application with Supabase back
          Cart Actions     │                 │                     │
        ─────────────────► │ 3. SHOPPING     │                     │
                           │    CART         │─────────────────────┘
-         Cart Status      │                 │
-       ◄─────────────────│                 │
-                          └─────────────────┘
+         Cart Status      │                 │                     ▲
+       ◄─────────────────│                 │                     │
+                          └─────────────────┘                     │
+                                   │                              │
+                                   │ Proceed to Checkout          │ Clear Cart Data
+                                   ▼                              │
+┌─────────────┐           ┌─────────────────┐                     │
+│             │ ────────► │                 │                     │
+│   CUSTOMER  │           │ 4. CHECKOUT     │─────────────────────┘
+│             │ ◄──────── │                 │
+└─────────────┘           └─────────────────┘
+
+┌─────────────┐           ┌─────────────────┐
+│             │ ────────► │                 │
+│    ADMIN    │           │ 5. ADMIN SYSTEM │─────────────────────┐
+│             │ ◄──────── │                 │                     │
+└─────────────┘           └─────────────────┘                     │
+                                   │                              │
+                                   │ Auth / Product Mgmt / Stats  │
+                                   ▼                              ▼
+              ┌─────────────────────────────────────────────────────────┐
+              │                  SUPABASE DATABASE                      │
+              └─────────────────────────────────────────────────────────┘
 ```
 
 ## Level 2 DFD - Detailed Process Breakdown
 
 ### Process 1: User Authentication
 
-```
+```text
 ┌─────────────┐
 │  CUSTOMER   │
 └─────────────┘
@@ -123,7 +143,7 @@ The Baby Clothing Shop is an Ionic/Angular mobile application with Supabase back
 
 ### Process 2: Product Management
 
-```
+```text
 ┌─────────────┐
 │  CUSTOMER   │
 └─────────────┘
@@ -158,7 +178,7 @@ The Baby Clothing Shop is an Ionic/Angular mobile application with Supabase back
 
 ### Process 3: Shopping Cart
 
-```
+```text
 ┌─────────────┐
 │  CUSTOMER   │
 └─────────────┘
@@ -213,10 +233,69 @@ The Baby Clothing Shop is an Ionic/Angular mobile application with Supabase back
 └─────────────────┘                                   └──────────────────┘
 ```
 
+### Process 4: Checkout
+
+```text
+┌─────────────┐
+│  CUSTOMER   │
+└─────────────┘
+       │
+       │ Shipping & Payment Details
+       ▼
+┌─────────────────┐    Process Order              ┌──────────────────┐
+│                 │                               │                  │
+│ 4.1 PROCESS     │ ─────────────────────────────►│   CART_ITEMS     │
+│     CHECKOUT    │ ◄────── Clear Cart ────────── │   (Database)     │
+│                 │                               │                  │
+└─────────────────┘                               └──────────────────┘
+```
+
+### Process 5: Admin System
+
+```text
+┌─────────────┐
+│    ADMIN    │
+└─────────────┘
+       │
+       │ Login Credentials
+       ▼
+┌─────────────────┐         Login Data              ┌─────────────────┐
+│                 │ ─────────────────────────────────► │                 │
+│ 5.1 ADMIN       │                                   │  SUPABASE AUTH  │
+│     AUTH        │ ◄─────── Session Token ──────── │                 │
+└─────────────────┘                                   └─────────────────┘
+
+┌─────────────┐
+│    ADMIN    │
+└─────────────┘
+       │
+       │ Create/Update/Delete Product
+       ▼
+┌─────────────────┐         Product Mutation         ┌──────────────────┐
+│                 │ ─────────────────────────────────► │                  │
+│ 5.2 MANAGE      │                                   │    PRODUCTS      │
+│     PRODUCTS    │ ◄─────── Success/Error ───────── │   (Database)     │
+│                 │                                   │                  │
+└─────────────────┘                                   └──────────────────┘
+
+┌─────────────┐
+│    ADMIN    │
+└─────────────┘
+       │
+       │ Dashboard Request
+       ▼
+┌─────────────────┐         Query Products/Cart      ┌──────────────────┐
+│                 │ ─────────────────────────────────► │                  │
+│ 5.3 VIEW        │                                   │  SUPABASE DB     │
+│     DASHBOARD   │ ◄─────── Stats & Sales Data ──── │   (Database)     │
+│                 │                                   │                  │
+└─────────────────┘                                   └──────────────────┘
+```
+
 ## Data Stores
 
 ### D1: USER PROFILES
-```
+```text
 Fields:
 - id (UUID, Primary Key)
 - email (String)
@@ -232,7 +311,7 @@ Access Patterns:
 ```
 
 ### D2: PRODUCTS
-```
+```text
 Fields:
 - id (UUID, Primary Key)
 - name (String)
@@ -247,12 +326,12 @@ Fields:
 - created_at (Timestamp)
 
 Access Patterns:
-- Read: Product browsing, search, cart enrichment
+- Read: Product browsing, search, cart enrichment, admin dashboard
 - Write: Product management (admin only)
 ```
 
 ### D3: CATEGORIES
-```
+```text
 Fields:
 - id (UUID, Primary Key)
 - name (String)
@@ -261,12 +340,12 @@ Fields:
 - created_at (Timestamp)
 
 Access Patterns:
-- Read: Category browsing, product filtering
+- Read: Category browsing, product filtering, admin dashboard
 - Write: Category management (admin only)
 ```
 
 ### D4: CART_ITEMS
-```
+```text
 Fields:
 - id (UUID, Primary Key)
 - user_id (UUID, Foreign Key → USER PROFILES)
@@ -278,39 +357,47 @@ Fields:
 - updated_at (Timestamp)
 
 Access Patterns:
-- Read: Cart loading, total calculations
-- Write: Add to cart, update quantity, remove items
-- Delete: Remove items, clear cart
+- Read: Cart loading, total calculations, admin dashboard (sales tracking)
+- Write: Add to cart, update quantity
+- Delete: Remove items, clear cart on checkout
 ```
 
 ## External Entities
 
 ### 1. CUSTOMER
-```
+```text
 Description: End users of the mobile application
 Interactions:
-- Sends: Registration data, login credentials, product searches, cart actions
-- Receives: Product information, cart status, user profile data, authentication status
+- Sends: Registration data, login credentials, product searches, cart actions, checkout details
+- Receives: Product information, cart status, user profile data, authentication status, checkout confirmation
 ```
 
-### 2. SUPABASE DATABASE
+### 2. ADMIN
+```text
+Description: Administrators managing the store
+Interactions:
+- Sends: Login credentials, product creation/updates/deletion
+- Receives: Dashboard statistics, sales data, product management status
 ```
+
+### 3. SUPABASE DATABASE
+```text
 Description: PostgreSQL database hosted on Supabase
 Interactions:
 - Receives: SQL queries, data mutations, authentication requests
 - Sends: Query results, stored data, authentication responses
 ```
 
-### 3. SUPABASE STORAGE
-```
+### 4. SUPABASE STORAGE
+```text
 Description: File storage service for images
 Interactions:
 - Receives: Image upload requests, file access requests
 - Sends: Image URLs, file data
 ```
 
-### 4. SUPABASE AUTH
-```
+### 5. SUPABASE AUTH
+```text
 Description: Authentication service
 Interactions:
 - Receives: Login/registration requests, session validation
@@ -322,33 +409,47 @@ Interactions:
 ### Primary Flows
 
 1. **User Registration Flow**
-   ```
+   ```text
    Customer → Registration Data → System → User Credentials → Supabase Auth
    Supabase Auth → Auth Response → System → Profile Data → User Profiles DB
    ```
 
 2. **Product Browsing Flow**
-   ```
+   ```text
    Customer → Browse Request → System → Category Query → Categories DB
    Categories DB → Category List → System → Product Query → Products DB
    Products DB → Product Data → System → Filtered Products → Customer
    ```
 
 3. **Add to Cart Flow**
-   ```
+   ```text
    Customer → Add to Cart → System → Check Existing → Cart Items DB
    Cart Items DB → Existing Items → System → Insert/Update → Cart Items DB
    System → Cart Summary → Customer
    ```
 
-4. **Cart Persistence Flow (Authenticated Users)**
+4. **Checkout Flow**
+   ```text
+   Customer → Checkout Data → System → Process Order (Simulated)
+   System → Clear Cart Request → Cart Items DB
+   Cart Items DB → System → Success Confirmation → Customer
    ```
+
+5. **Admin Management Flow**
+   ```text
+   Admin → Login Data → System → Supabase Auth
+   Admin → Dashboard Request → System → Query Products & Cart Items → System → Stats → Admin
+   Admin → Product Data Mutation → System → Update Products DB → System → Success → Admin
+   ```
+
+6. **Cart Persistence Flow (Authenticated Users)**
+   ```text
    System → Cart Item Data → Cart Items DB (persistent storage)
    Login Event → Load Cart Query → Cart Items DB → Cart Data → System
    ```
 
-5. **Session Cart Flow (Anonymous Users)**
-   ```
+7. **Session Cart Flow (Anonymous Users)**
+   ```text
    System → Cart Data → Local Storage (browser)
    Page Load → Retrieve Cart → Local Storage → Cart Data → System
    ```
@@ -356,18 +457,18 @@ Interactions:
 ## Error Handling Flows
 
 1. **Authentication Errors**
-   ```
-   Invalid Credentials → Supabase Auth → Error Response → System → Error Message → Customer
+   ```text
+   Invalid Credentials → Supabase Auth → Error Response → System → Error Message → Customer/Admin
    ```
 
 2. **Database Errors**
-   ```
-   Database Failure → Error Response → System → Fallback/Retry Logic → Error Notification → Customer
+   ```text
+   Database Failure → Error Response → System → Fallback/Retry Logic → Error Notification → Customer/Admin
    ```
 
 3. **Network Errors**
-   ```
+   ```text
    Network Failure → System → Cache/Local Storage → Offline Data → Customer
    ```
 
-This DFD shows the complete data flow architecture of the Baby Clothing Shop app, including user authentication, product management, shopping cart functionality, and data persistence patterns.
+This DFD shows the complete data flow architecture of the Baby Clothing Shop app, including user authentication, product management, shopping cart functionality, data persistence patterns, checkout flow, and administrative capabilities.

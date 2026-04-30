@@ -53,11 +53,6 @@ npx cap open android
 ```
 *(For detailed steps on building the APK, refer to the included [APK Build Guide](APK_BUILD_SUCCESS.md))*
 
-## Database Setup
-To set up the required database schema and security policies in Supabase, run the following scripts in the Supabase SQL Editor:
-1. **Cart System**: Run `scripts/cart-schema-fixed.sql` to initialize the cart system and RLS.
-2. **Admin System**: Run `scripts/admin-rls-setup.sql` to enable administrative CRUD operations on products and categories.
-
 ## Admin Access
 You can access the admin portal at `/admin/login`.
 **Admin Credentials:**
